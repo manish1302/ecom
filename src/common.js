@@ -1,14 +1,8 @@
 export const HomeProductList = [
     {
-        name : "Living"
+        name : "Latest"
     },
     {
-        name : "Bedroom"
+        name : "Deals"
     },
-    {
-        name : "Kitchen"
-    },
-    {
-        name : "Bathroom"
-    }
 ]

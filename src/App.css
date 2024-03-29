@@ -21,8 +21,24 @@
 @import './styles/Home.scss';
 @import './styles/Helper.scss';
 @import './styles/Navbar.scss';
+@import './styles/ProductDetail.scss';
 
 
 .App {
    background-color: #F3F0E8;
 }
+
+/* For WebKit (Chrome, Safari, etc.) */
+::-webkit-scrollbar {
+   width: 8px;
+   scrollbar-color: red transparent;
+ }
+ 
+ ::-webkit-scrollbar-thumb {
+   background: #606c5a;
+ }
+ 
+ ::-webkit-scrollbar-thumb:hover {
+   background: #555;
+ }
+ 

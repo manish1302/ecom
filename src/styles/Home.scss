@@ -73,6 +73,10 @@
   }
 }
 
+.latest-deals {
+  width: 100px !important;
+}
+
 .featured-products {
     display: flex;
     flex-direction: column;
@@ -113,8 +117,53 @@
     border: 1px solid rgba(96, 108, 90, 0.5);
     border-radius: 16px;
     padding: 16px;
+    height: 25rem;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and  (min-width : 768px) {
+  .Product-card {
+    order: 1px solid rgba(96, 108, 90, 0.5);
+    border-radius: 16px;
+    padding: 16px;
     height: 18rem;
     justify-content: space-between;
     display: flex;
     flex-direction: column;
+  }
+}
+
+
+.zen-lounger-details {
+  width: 70%;
+  background-color: #E6DED6;
+  display: flex;
+  justify-content: flex-end;
+  padding: 30px 16px;
+}
+
+.Zen-lounger-title {
+  color: #606c5a;
+  font-weight: bold;
+  font-family: "Comfortaa", sans-serif;
+  font-size: 45px;
+}
+
+.Zen-lounger-body {
+  color: #606c5a;
+  font-weight: 500;
+  font-family: "Comfortaa", sans-serif;
+  font-size: 16px;
+  text-align: center;
+}
+
+.Home-footer {
+  background-color: #606c5a;
+  padding: 24px;
+}
+
+.footer-products h5, .footer-products div {
+  color: #E6E4E0;
 }
