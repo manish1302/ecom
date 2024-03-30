@@ -1,84 +1,105 @@
 .product-img-backgroud {
-    width: 500px;
-    height: 500px;
+  width: 500px;
+  height: 500px;
+  background: rgba(96, 108, 90, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+}
+
+.product-image-div {
+  margin: 24px;
+  margin-left: 0;
+  width: 50%;
+}
+
+.pd-title {
+  color: #606c5a;
+  font-weight: bold;
+  font-size: 40px;
+  font-family: "Comfortaa", sans-serif;
+}
+
+.pd-code {
+  color: #a8a194;
+  font-weight: 300;
+  font-size: 16px;
+  font-family: "Comfortaa", sans-serif;
+}
+
+.pd-desc {
+  color: #a8a194;
+  font-weight: 400;
+  font-size: 18px;
+  font-family: "Comfortaa", sans-serif;
+}
+
+.pd-colordesc {
+  color: #a8a194;
+  font-weight: 300;
+  font-size: 14px;
+  font-family: "Comfortaa", sans-serif;
+}
+
+.pd-cost {
+  color: #606c5a;
+  font-weight: bold;
+  font-size: 32px;
+  font-family: "Comfortaa", sans-serif;
+}
+
+.pd-discount {
+  color: rgba(96, 108, 90, 0.7);
+  font-weight: bold;
+  font-size: 32px;
+  font-family: "Comfortaa", sans-serif;
+  text-decoration: line-through;
+}
+
+.pd-percentage {
+  color: #a8a194;
+  font-weight: light;
+  font-size: 14px;
+  font-family: "Comfortaa", sans-serif;
+}
+
+.username-review {
+  color: #606c5a;
+  font-weight: 500;
+  font-size: 16px;
+  font-family: "Comfortaa", sans-serif;
+}
+
+.review-card {
+  width: 47% !important;
+  margin: 16px;
+}
+
+@media only screen and (max-width: 768px) {
+  .review-card {
+    width: 100% !important;
+    margin: 16px;
+  }
+
+  .product-image-div {
+    width: 100%;
+  }
+  .product-img-backgroud {
+    width: 350px;
+    height: 350px;
     background: rgba(96, 108, 90, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 16px;
-}
-
-.product-image-div {
-    margin: 24px;
-    margin-left: 0;
-}
-
-.pd-title {
-    color: #606C5A;
-    font-weight: bold;
-    font-size: 40px;
-    font-family: "Comfortaa", sans-serif;
-}
-
-.pd-code {
-    color: #A8A194;
-    font-weight: 300;
-    font-size: 16px;
-    font-family: "Comfortaa", sans-serif;
-}
-
-.pd-desc {
-    color: #A8A194;
-    font-weight: 400;
-    font-size: 18px;
-    font-family: "Comfortaa", sans-serif;
-}
-
-.pd-colordesc {
-    color: #A8A194;
-    font-weight: 300;
-    font-size: 14px;
-    font-family: "Comfortaa", sans-serif;
-}
-
-.pd-cost {
-    color: #606C5A;
-    font-weight: bold;
-    font-size: 32px;
-    font-family: "Comfortaa", sans-serif;
-}
-
-.pd-discount {
-    color: rgba(96, 108, 90, 0.7);
-    font-weight: bold;
-    font-size: 32px;
-    font-family: "Comfortaa", sans-serif;
-    text-decoration: line-through;
-}
-
-.pd-percentage {
-    color: #A8A194;
-    font-weight: light;
-    font-size: 14px;
-    font-family: "Comfortaa", sans-serif;
-}
-
-.username-review {
-    color: #606C5A;
-    font-weight: 500;
-    font-size: 16px;
-    font-family: "Comfortaa", sans-serif;
-}
-
-.review-card {
-    width: 47% !important;
-    margin: 16px;
-}
-
-
-@media only screen and (max-width: 768px) {
-    .review-card {
-        width: 100% !important;
-        margin: 16px;
-    }  
   }
+
+  .pd-img-width {
+    height: 300px;
+  }
+  .mobileflex-pd {
+    display: flex;
+    flex-direction: column;
+  }
+}

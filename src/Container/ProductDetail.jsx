@@ -10,15 +10,15 @@ const ProductDetail = () => {
     "That's a very fantastic chair, unbelievable, magnificient. How can people make this kind of chair, it's just brilliant.";
   return (
     <div className="Home">
-      <div className="d-flex mb-5">
-        <div className="product-image-div w-50">
+      <div className="d-flex mobileflex-pd mb-5">
+        <div className="product-image-div">
           <div className="product-img-backgroud">
             <div>
-              <img style={{ opacity: 1 }} src={OrangeChair} alt="" />
+              <img style={{ opacity: 1 }} className="pd-img-width" src={OrangeChair} alt="" />
             </div>
           </div>
         </div>
-        <div className="product-image-div w-50">
+        <div className="product-image-div">
           <div className="pd-title">Giraffe Legged Chair</div>
           <div className="pd-code mb-2">CASKV38RF3</div>
           <div className="pd-desc mb-3">

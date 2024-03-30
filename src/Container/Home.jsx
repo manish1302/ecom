@@ -35,7 +35,6 @@ const Home = () => {
   return (
     <>
       <div className="Home">
-        <NavBar />
         <Container className="mt-3">
           <Row>
             <Col lg={6} xs={12} className="d-flex gap-2">

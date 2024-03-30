@@ -1,19 +1,86 @@
 .nav-brand {
-    font-family: "Irish Grover", system-ui;
-    font-weight: 600;
-    font-size: 24px;
-    color: #A8A194 !important;
+  font-family: "Irish Grover", system-ui;
+  font-weight: 600;
+  font-size: 24px;
+  color: #a8a194 !important;
 }
 
 .nav-menu {
-    font-family: "Comfortaa", sans-serif;
-    font-weight: bold;
-    color: #A8A194 !important;
+  font-family: "Comfortaa", sans-serif;
+  font-weight: bold;
+  color: #a8a194 !important;
 }
 
 .nav-menu:hover {
-    font-weight: bold;
-    font-family: "Comfortaa", sans-serif;
-    font-weight: bold !important;
-    color: #A8A194 !important;
+  font-weight: bold;
+  font-family: "Comfortaa", sans-serif;
+  font-weight: bold !important;
+  color: #a8a194 !important;
+}
+
+.cartName {
+  width: 100%;
+  border: 1px solid #606c5a;
+  height: 140px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  padding: 12px;
+  display: flex;
+}
+
+.cart-img-bg {
+  background: rgba(96, 108, 90, 0.2);
+  height: 116px;
+  width: 116px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.cart-pd-title {
+  color: #606c5a;
+  font-weight: bold;
+  font-size: 16px;
+  font-family: "Comfortaa", sans-serif;
+}
+
+.cart-pd-code {
+  color: #a8a194;
+  font-weight: 300;
+  font-size: 8px;
+  font-family: "Comfortaa", sans-serif;
+}
+
+.cart-pd-cost {
+  color: #606c5a;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: "Comfortaa", sans-serif;
+}
+
+.cart-pd-sub {
+  color: #606c5a;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+}
+
+.cart-pd-quantity {
+  border: none;
+  outline: none;
+  background: none;
+}
+
+.cart-checkout {
+  width: 100%;
+}
+
+.cart-pd-remove {
+  margin-top: 4px;
+  color: #a8a194;
+  font-weight: 300;
+  font-size: 12px;
+  font-family: "Comfortaa", sans-serif;
 }
