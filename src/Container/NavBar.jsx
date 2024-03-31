@@ -12,14 +12,18 @@ import CartItem from "../Components/CartItem";
 
 const NavBar = () => {
   const [openCart, setOpenCart] = useState(false);
+  const [openOrders, setOpenOrders] = useState(false);
   const showDrawer = () => {
     setOpenCart(!openCart);
   };
+  const showOrders = () => {
+    setOpenOrders(!openOrders);
+  }
   const items = [
     {
       key: '1',
       label: (
-        <div target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+        <div target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com" onClick={showOrders}>
           Orders &nbsp; &nbsp;
         </div>
       ),
@@ -97,6 +101,17 @@ const NavBar = () => {
                 Checkout
               </button>
             </div>
+          </div>
+        </div>
+      </Drawer>
+      <Drawer title="Orders" onClose={showOrders} open={openOrders}>
+        <div
+          className="d-flex flex-column align-items-center justify-content-between"
+        >
+          <div style={{ overflowY: "scroll" }}>
+            {cartItems.map((item, index) => {
+              return <CartItem isOrders={true} />;
+            })}
           </div>
         </div>
       </Drawer>

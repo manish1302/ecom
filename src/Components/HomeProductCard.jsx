@@ -15,12 +15,12 @@ const HomeProductCard = () => {
         <div className="d-flex">
           <div>
             {/* <HeartOutlined /> */}
-            <HeartFilled style = {{color : "#606c5a", marginRight: "4px"}}/>
+            <HeartFilled style = {{color : "#606c5a", marginRight: "4px", cursor: "pointer"}}/>
           </div>
           <div>4.8</div>
         </div>
         <div>
-          <BookFilled />
+          <BookFilled  style={{ cursor: 'pointer' }}/>
           {/* <BookOutlined /> */}
         </div>
       </div>
@@ -40,7 +40,7 @@ const HomeProductCard = () => {
             $108.50
           </div>
         </div>
-        <div className="add-button-home d-flex align-items-center justify-content-center">
+        <div className="add-button-home d-flex align-items-center justify-content-center" style={{ cursor: 'pointer' }} >
         <PlusOutlined />
         </div>
       </div>

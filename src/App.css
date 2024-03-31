@@ -22,12 +22,13 @@
 @import './styles/Helper.scss';
 @import './styles/Navbar.scss';
 @import './styles/ProductDetail.scss';
+@import './styles/Login.scss';
 
 
 .App {
-   background-color: #F3F0E8;
+  background-color: #F3F0E8;
+  min-height: 100vh;
 }
-
 /* For WebKit (Chrome, Safari, etc.) */
 ::-webkit-scrollbar {
    width: 8px;
