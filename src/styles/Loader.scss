@@ -1,0 +1,19 @@
+.Loader {
+  background-color: #f3f0e8;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
+  position: fixed;
+  top: 0;
+}
+
+@media only screen and (max-width: 768px) {
+  .Loader {
+    background-color: #f3f0e8;
+    height: 100vh;
+    width: 100vw;
+    z-index: 1;
+    position: fixed;
+    top: 0;
+  }
+}

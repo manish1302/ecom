@@ -23,6 +23,7 @@
 @import './styles/Navbar.scss';
 @import './styles/ProductDetail.scss';
 @import './styles/Login.scss';
+@import './styles/Loader.scss';
 
 
 .App {
