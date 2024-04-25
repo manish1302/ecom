@@ -4,24 +4,56 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Divider, Drawer, Dropdown, Space } from "antd";
+import { Badge, Divider, Drawer, Dropdown, Space } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { cartItems } from "../common";
 import CartItem from "../Components/CartItem";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Components/Loader";
 import AuthContext from "../Context/AuthContext";
+import axios from "axios";
 
 const NavBar = () => {
   const [openCart, setOpenCart] = useState(false);
   const [openOrders, setOpenOrders] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  
-  const { isLoggedIn, Authlogout } = useContext(AuthContext);
 
-  console.log(isLoggedIn, "abfdkfbdjfbdf")
+  const { isLoggedIn, Authlogout, cartUpdate, toggleCartUpdate } =
+    useContext(AuthContext);
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://localhost:7272/api/Cart/GetCartItems/${localStorage.getItem(
+          "JapandiEmailId"
+        )}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("jwtToken"),
+            Accept: "application/json, text/plain, */*",
+            mode: "no-cors",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
+      .then((res) => {
+        window.setTimeout(() => {
+          setCartItems(res.data);
+          setTotal(res.data.reduce((total, item) => total + Number(item.price),0))
+          // let newData = res.data.map((item) => {
+          //   if()
+          // })
+          console.log(res.data)
+        }, 10);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [cartUpdate]);
+
   const showDrawer = () => {
     setOpenCart(!openCart);
   };
@@ -29,11 +61,23 @@ const NavBar = () => {
     setOpenOrders(!openOrders);
   };
 
-  const items =
-  isLoggedIn
+  const items = isLoggedIn
     ? [
         {
           key: "1",
+          label: (
+            <div
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.antgroup.com"
+              onClick={showOrders}
+            >
+              Wishlist &nbsp; &nbsp;
+            </div>
+          ),
+        },
+        {
+          key: "2",
           label: (
             <div
               target="_blank"
@@ -46,7 +90,7 @@ const NavBar = () => {
           ),
         },
         {
-          key: "2",
+          key: "3",
           label: (
             <div
               target="_blank"
@@ -76,7 +120,7 @@ const NavBar = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => {
-                navigate('/login')
+                navigate("/login");
               }}
             >
               Login
@@ -106,10 +150,30 @@ const NavBar = () => {
             className="justify-content-end"
           >
             <Nav variant="underline">
-              <Nav.Link className="nav-menu">Living</Nav.Link>
-              <Nav.Link className="nav-menu">Bedroom</Nav.Link>
-              <Nav.Link className="nav-menu">Kitchen</Nav.Link>
-              <Nav.Link className="nav-menu">Bathroom</Nav.Link>
+              <Nav.Link
+                className="nav-menu"
+                onClick={() => navigate("products/living")}
+              >
+                Living
+              </Nav.Link>
+              <Nav.Link
+                className="nav-menu"
+                onClick={() => navigate("products/bedroom")}
+              >
+                Bedroom
+              </Nav.Link>
+              <Nav.Link
+                className="nav-menu"
+                onClick={() => navigate("products/kitchen")}
+              >
+                Kitchen
+              </Nav.Link>
+              <Nav.Link
+                className="nav-menu"
+                onClick={() => navigate("products/bathroom")}
+              >
+                Bathroom
+              </Nav.Link>
               <Nav.Link className="nav-menu">
                 <FontAwesomeIcon icon={faSearch} />
               </Nav.Link>
@@ -120,15 +184,19 @@ const NavBar = () => {
                   }}
                   placement="bottom"
                 >
-                  <a onClick={(e) => e.preventDefault()}>
+                  <div onClick={(e) => e.preventDefault()}>
                     <Space className="nav-menu">
                       <FontAwesomeIcon icon={faUser} />
                     </Space>
-                  </a>
+                  </div>
                 </Dropdown>
               </Nav.Link>
               <Nav.Link className="nav-menu" onClick={showDrawer}>
-                <FontAwesomeIcon icon={faCartShopping} />
+                <Space size="middle">
+                  <Badge size="small" count={cartItems?.length}>
+                    <FontAwesomeIcon icon={faCartShopping} />
+                  </Badge>
+                </Space>
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
@@ -140,13 +208,13 @@ const NavBar = () => {
           >
             <div style={{ height: "80%", overflowY: "scroll" }}>
               {cartItems.map((item, index) => {
-                return <CartItem />;
+                return <CartItem data={item}/>;
               })}
             </div>
             <Divider />
             <div className="cart-checkout p-2 d-flex align-item-center justify-content-between">
               <div className="cart-pd-sub ">Sub Total</div>
-              <div className="cart-pd-sub">$900</div>
+              <div className="cart-pd-sub">${total}</div>
             </div>
             <div className="cart-checkout">
               <div className="cart-pd-title">

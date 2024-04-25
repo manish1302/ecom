@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import pan from "../Assets/pan-removebg-preview.png";
+import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
   BookFilled,
   BookOutlined,
@@ -8,19 +12,55 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 
-const HomeProductCard = () => {
+const HomeProductCard = (props) => {
+  const {data, onCardClick} = props;
+  const [like, setLike] = useState(false);
+  const [save, setSave] = useState(false);
+
+  const handleLike = () => {
+    setLike(!like);
+  };
+
+  const handleSave = () => {
+    setSave(!save);
+  };
+
   return (
     <div className="Product-card">
       <div className="d-flex justify-content-between">
         <div className="d-flex">
-          <div>
+          <div onClick={handleLike}>
             {/* <HeartOutlined /> */}
-            <HeartFilled style = {{color : "#606c5a", marginRight: "4px", cursor: "pointer"}}/>
+            {like ? (
+              <FavoriteBorderIcon
+                style={{
+                  color: "#606c5a",
+                  marginRight: "4px",
+                  cursor: "pointer",
+                }}
+              />
+            ) : (
+              <FavoriteIcon
+                style={{
+                  color: "#606c5a",
+                  marginRight: "4px",
+                  cursor: "pointer",
+                }}
+              />
+            )}
           </div>
-          <div>4.8</div>
+          <div
+            style={{ fontSize: "16px", color: "#606c5a", fontWeight: "600" }}
+          >
+            {data?.rating?.toFixed(1)}
+          </div>
         </div>
-        <div>
-          <BookFilled  style={{ cursor: 'pointer' }}/>
+        <div onClick={handleSave}>
+          {save ? (
+            <TurnedInNotIcon style={{ color: "#606c5a", cursor: "pointer" }} />
+          ) : (
+            <BookmarkIcon style={{ color: "#606c5a", cursor: "pointer" }} />
+          )}
           {/* <BookOutlined /> */}
         </div>
       </div>
@@ -34,14 +74,19 @@ const HomeProductCard = () => {
         />
       </div>
       <div className="d-flex justify-content-between">
-        <div style={{width : "80%"}}>
-          <div className="featured-name">Desert Cactus Lamp</div>
+        <div style={{ width: "80%" }}>
+          <div className="featured-name">{data?.name}</div>
           <div className="featured-name" style={{ fontWeight: 300 }}>
-            $108.50
+            ${data?.price}
           </div>
         </div>
-        <div className="add-button-home d-flex align-items-center justify-content-center" style={{ cursor: 'pointer' }} >
-        <PlusOutlined />
+        <div
+          className=" d-flex align-items-center justify-content-center add-button-home"
+          onClick={() => {
+            onCardClick(data.id)
+          }}
+        >
+          <PlusOutlined />
         </div>
       </div>
     </div>

@@ -114,7 +114,7 @@ const Home = () => {
                   {HomeProductList.map((item, id) => {
                     return (
                       <HomeProductTabs
-                        name={item.name}
+                        name={item?.name}
                         active={currentTab == id}
                         onClick={() => {
                           setCurrentTab(id);

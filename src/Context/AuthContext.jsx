@@ -6,7 +6,11 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("IsLoggedIn") === "true"
   );
+  const [cartUpdate, setCartUpdate] = useState(false);
 
+  const toggleCartUpdate = () => {
+      setCartUpdate(!cartUpdate);
+  }
   const Authlogin = () => {
     setIsLoggedIn(true);
     localStorage.setItem("IsLoggedIn", "true");
@@ -18,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, Authlogin, Authlogout }}>
+    <AuthContext.Provider value={{ isLoggedIn, Authlogin, Authlogout, cartUpdate, toggleCartUpdate }}>
       {children}
     </AuthContext.Provider>
   );
