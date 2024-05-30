@@ -11,8 +11,7 @@ import AuthContext, { AuthProvider } from "./Context/AuthContext";
 
 function App() {
   const isLoggedIn = localStorage.getItem("IsLoggedIn") === "true";
-
-  console.log(isLoggedIn, "Manish");
+;
   return (
     <div className="App">
       <AuthProvider>

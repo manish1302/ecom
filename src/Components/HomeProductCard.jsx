@@ -11,11 +11,13 @@ import {
   HeartOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 const HomeProductCard = (props) => {
   const {data, onCardClick} = props;
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
+  const navigate = useNavigate();
 
   const handleLike = () => {
     setLike(!like);
@@ -25,8 +27,11 @@ const HomeProductCard = (props) => {
     setSave(!save);
   };
 
+
   return (
-    <div className="Product-card">
+    <div className="Product-card" onClick = {() => {
+      navigate(`/product-detail/${data.id}`)
+    }}>
       <div className="d-flex justify-content-between">
         <div className="d-flex">
           <div onClick={handleLike}>
@@ -82,7 +87,8 @@ const HomeProductCard = (props) => {
         </div>
         <div
           className=" d-flex align-items-center justify-content-center add-button-home"
-          onClick={() => {
+          onClick={(event) => {
+            event.stopPropagation();
             onCardClick(data.id)
           }}
         >

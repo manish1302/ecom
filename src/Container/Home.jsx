@@ -20,9 +20,11 @@ import ZenLounger from "../Assets/zenlounge.png";
 import { Skeleton } from "antd";
 import { Footer } from "antd/es/layout/layout";
 import Loader from "../Components/Loader";
+import axios from "axios";
 const Home = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [active, setActive] = useState(true);
+  const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
@@ -34,10 +36,22 @@ const Home = () => {
     setActive(false);
   };
 
-  console.log(localStorage.getItem("jwtToken"));
+  const headers = { Authorization: localStorage.getItem("jwtToken") };
+  axios
+    .get(
+      "https://localhost:7272/api/Main/GetAllProducts",
+      { headers }
+    )
+    .then((response) => {
+      setProducts(response.data.slice(0, 4));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
   return (
     <>
-      <Loader isLoading = {isLoading}>
+      <Loader isLoading={isLoading}>
         <div className="Home">
           <Container className="mt-3">
             <Row>
@@ -126,18 +140,13 @@ const Home = () => {
               </Col>
               <Col>
                 <Row className="d-flex justify-content-between">
-                  <Col sm={12} md={4} lg={3}>
-                    <HomeProductCard />
-                  </Col>
-                  <Col sm={12} md={4} lg={3}>
-                    <HomeProductCard />
-                  </Col>
-                  <Col sm={12} md={4} lg={3}>
-                    <HomeProductCard />
-                  </Col>
-                  <Col sm={12} md={4} lg={3}>
-                    <HomeProductCard />
-                  </Col>
+                  {products?.map((item) => {
+                    return (
+                      <Col sm={12} md={4} lg={3}>
+                        <HomeProductCard  data = {item}/>
+                      </Col>
+                    );
+                  })}
                 </Row>
               </Col>
             </Row>

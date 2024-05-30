@@ -116,7 +116,7 @@ const ProductListing = () => {
       url : "https://localhost:7272/api/Cart/AddToCart",
       headers : {
         Authorization : localStorage.getItem("jwtToken"),
-        Accept: "application/json, text/plain, */*",
+        Accept: "application/json, text/pflain, */*",
         mode: "no-cors",
         "Access-Control-Allow-Origin": "*",
       },
@@ -132,6 +132,8 @@ const ProductListing = () => {
       console.log(error); 
     })
   }
+
+
 
   return (
     <div className="Home">

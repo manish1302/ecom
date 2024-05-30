@@ -4,7 +4,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Badge, Divider, Drawer, Dropdown, Space } from "antd";
+import { Badge, Divider, Drawer, Dropdown, Space, message } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import CartItem from "../Components/CartItem";
@@ -19,6 +19,7 @@ const NavBar = () => {
   const [cartItems, setCartItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [checkout, setCheckout] = useState(false);
   const navigate = useNavigate();
 
   const { isLoggedIn, Authlogout, cartUpdate, toggleCartUpdate } =
@@ -41,18 +42,97 @@ const NavBar = () => {
       )
       .then((res) => {
         window.setTimeout(() => {
-          setCartItems(res.data);
-          setTotal(res.data.reduce((total, item) => total + Number(item.price),0))
-          // let newData = res.data.map((item) => {
-          //   if()
-          // })
-          console.log(res.data)
+          const cartData = res.data;
+          console.log(cartData);
+          const uniqueCart = [];
+          const itemMap = {};
+
+          // Iterate over each item in the cart
+          cartData.forEach((item) => {
+            // Create a unique key for each item (using productCode)
+            const key = item.productCode;
+
+            // Check if the item already exists in the map
+            if (itemMap[key]) {
+              // Increment the quantity of the existing item
+              itemMap[key].quantity += 1;
+            } else {
+              // Add the item to the map and set its initial quantity to 1
+              itemMap[key] = { ...item, quantity: 1 };
+            }
+          });
+
+          // Convert the map to an array
+          for (const key in itemMap) {
+            // Push each unique item into the uniqueCart array
+            uniqueCart.push(itemMap[key]);
+          }
+
+          setCartItems(uniqueCart);
+          setTotal(
+            res.data.reduce((total, item) => total + Number(item.price), 0)
+          );
         }, 10);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [cartUpdate]);
+  }, [cartUpdate, isLoggedIn]);
+
+  const ConfirmOrder = (status) => {
+    let cartData = [];
+    cartItems.map((item, id) => {
+      var obj = {};
+      obj.orderId = 0
+      obj.productId = item.id
+      obj.quantity = item.quantity
+      cartData.push(obj); 
+    })
+
+    const config = {
+      method: "post",
+      url: "https://localhost:7272/Api/Order/ConfirmOrder",
+      headers: {
+        Authorization: localStorage.getItem("jwtToken"),
+        Accept: "application/json, text/pflain, */*",
+        mode: "no-cors",
+        "Access-Control-Allow-Origin": "*",
+      },
+      data: {
+        emailId: localStorage.getItem("JapandiEmailId"),
+        orderItems: cartData,
+        status : status,
+      },
+    };
+
+    axios(config).then((res) => {
+      console.log(res);
+    }).catch((error) => {
+      console.log(error)
+    })
+
+    axios
+      .get(
+        `https://localhost:7272/api/Cart/ClearCart/${localStorage.getItem(
+          "JapandiEmailId"
+        )}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("jwtToken"),
+            Accept: "application/json, text/plain, */*",
+            mode: "no-cors",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
+      .then((res) => {
+        setCartItems([]);
+        setTotal(0);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   const showDrawer = () => {
     setOpenCart(!openCart);
@@ -60,6 +140,8 @@ const NavBar = () => {
   const showOrders = () => {
     setOpenOrders(!openOrders);
   };
+
+  const [messageApi, contextHolder] = message.useMessage();
 
   const items = isLoggedIn
     ? [
@@ -101,6 +183,7 @@ const NavBar = () => {
                 localStorage.removeItem("IsLoggedIn");
                 localStorage.removeItem("jwtToken");
                 navigate("/login");
+                toggleCartUpdate();
                 Authlogout();
                 window.location.reload();
                 setIsLoading(false);
@@ -132,6 +215,7 @@ const NavBar = () => {
 
   return (
     <Loader isLoading={isLoading}>
+      {contextHolder}
       <Navbar collapseOnSelect expand="lg" className="pt-4">
         <Container fluid>
           <Navbar.Brand
@@ -208,20 +292,59 @@ const NavBar = () => {
           >
             <div style={{ height: "80%", overflowY: "scroll" }}>
               {cartItems.map((item, index) => {
-                return <CartItem data={item}/>;
+                return <CartItem data={item} />;
               })}
             </div>
             <Divider />
             <div className="cart-checkout p-2 d-flex align-item-center justify-content-between">
               <div className="cart-pd-sub ">Sub Total</div>
-              <div className="cart-pd-sub">${total}</div>
+              <div className="cart-pd-sub">${total?.toFixed(2)}</div>
             </div>
             <div className="cart-checkout">
               <div className="cart-pd-title">
-                <button className="choose-a-chair p-2 w-100 mb-3">
-                  Checkout
+                <button
+                  className="choose-a-chair p-2 w-100 mb-3"
+                  onClick={() => {
+                    setCheckout(!checkout);
+                  }}
+                >
+                  {!checkout ? "Checkout" : "Cancel"}
                 </button>
               </div>
+              {checkout && (
+                <>
+                  <div className="cart-pd-title">
+                    <button
+                      className="payment p-2 w-100 mb-3"
+                      onClick={() => {
+                        ConfirmOrder(1);
+                        setCheckout(false);
+                        messageApi.open({
+                          type: "warning",
+                          content: "Order Pending",
+                        });
+                      }}
+                    >
+                      Cash on delivery
+                    </button>
+                  </div>
+                    <div className="cart-pd-title w-100">
+                      <button
+                        className="payment p-2 w-100"
+                        onClick={() => {
+                          ConfirmOrder(2);
+                          setCheckout(false);
+                          messageApi.open({
+                            type: "success",
+                            content: "Order Confirmed",
+                          });
+                        }}
+                      >
+                        Pay online
+                      </button>
+                    </div>
+                </>
+              )}
             </div>
           </div>
         </Drawer>
@@ -229,7 +352,7 @@ const NavBar = () => {
           <div className="d-flex flex-column align-items-center justify-content-between">
             <div style={{ overflowY: "scroll" }}>
               {cartItems.map((item, index) => {
-                return <CartItem isOrders={true} />;
+                return <CartItem isOrders={true} data={item} />;
               })}
             </div>
           </div>

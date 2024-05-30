@@ -9,8 +9,52 @@ const LoginContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+  const { Authlogout, Authlogin, toggleCartUpdate, cartUpdate } = useContext(AuthContext);
 
-  const { Authlogout, Authlogin } = useContext(AuthContext);
+
+  const refreshTokens = () => {
+    const config = {
+        method : "post",
+        url : "https://localhost:7272/refresh",
+        headers : {
+          Authorization : localStorage.getItem("jwtToken"),
+          Accept: "application/json, text/pflain, */*",
+          mode: "no-cors",
+          "Access-Control-Allow-Origin": "*",
+        },
+        data : {
+          refreshToken : localStorage.getItem("refreshToken")
+        }
+    }
+    axios.post(config).then((resp) => {
+      console.log(resp, "lkjxcvhb")
+      localStorage.setItem("refreshToken", resp?.refreshToken);
+      localStorage.setItem("jwtToken", "Bearer " + resp?.accessToken);
+    }).catch((err) => {
+      console.log(err, "lkjxcvhb")
+    })
+  }
+
+
+  axios.interceptors.response.use(
+    response => response,
+    error => {
+      const status = error.response ? error.response.status : null;
+      
+      if (status === 401) {
+        refreshTokens();
+        console.log("Unauthorized access");
+      } else if (status === 404) {
+        // Handle not found errors
+        console.log("Post not found");
+      } else {
+        // Handle other errors
+        console.error("An error occurred:", error);
+      }
+      
+      return Promise.reject(error);
+    }
+  );
 
   const handleSubmit = () => {
     setIsLoading(true);
@@ -35,19 +79,17 @@ const LoginContainer = () => {
         Authlogin();
         localStorage.setItem("jwtToken", "Bearer " + resp.data?.accessToken);
         localStorage.setItem("JapandiEmailId", emailId);
+        localStorage.setItem("refreshToken", resp.data?.accessToken);
         localStorage.setItem("IsLoggedIn", true);
-        console.log(
-          localStorage,
-          localStorage.getItem("JapandiEmailId"),
-          "hisdhbhvdh"
-        );
         navigate("/home");
+        toggleCartUpdate(!cartUpdate)
         setIsLoading(false);
       })
       .catch((error) => {
         localStorage.removeItem("JapandiEmailId");
         localStorage.removeItem("IsLoggedIn");
         localStorage.removeItem("jwtToken");
+        localStorage.removeItem("refreshToken");
         navigate("/login");
         console.log(error);
         setIsLoading(false);
