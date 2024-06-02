@@ -7,7 +7,7 @@ import AuthContext from "../Context/AuthContext";
 
 const CartItem = ({ isOrders, data }) => {
 
-  
+  console.log(data);
   const {cartUpdate, toggleCartUpdate} = useContext(AuthContext);
 
   const plusMinusClick = (plus) => {
@@ -45,7 +45,7 @@ const CartItem = ({ isOrders, data }) => {
           <div className="cart-pd-title">{data?.name}</div>
           <div className="cart-pd-code">
             {data?.productCode} &nbsp; &nbsp;&nbsp; &nbsp;{" "}
-            {isOrders && "March 10, 24"}
+            {/* {isOrders && data?.} */}
           </div>
           <div className="cart-pd-cost">${data?.price}</div>
         </div>
@@ -61,7 +61,7 @@ const CartItem = ({ isOrders, data }) => {
               </button>
             </div>
           ) : (
-            <div className="cart-pd-remove">Qty : 3</div>
+            <div className="cart-pd-remove">Qty : {data?.stock}</div>
           )}
           <div className="cart-pd-remove">
             &nbsp;&nbsp;&nbsp; &nbsp;{isOrders ? "Cancel" : "Remove"}

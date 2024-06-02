@@ -12,17 +12,21 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../Components/Loader";
 import AuthContext from "../Context/AuthContext";
 import axios from "axios";
+import LikedItem from "../Components/LikedItem";
 
 const NavBar = () => {
   const [openCart, setOpenCart] = useState(false);
   const [openOrders, setOpenOrders] = useState(false);
+  const [openWishlist, setOpenWishlist] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [orderItems, setOrderItems] = useState([]);
+  const [likedItems, setLikedItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [checkout, setCheckout] = useState(false);
   const navigate = useNavigate();
 
-  const { isLoggedIn, Authlogout, cartUpdate, toggleCartUpdate } =
+  const { isLoggedIn, Authlogout, cartUpdate, toggleCartUpdate, likeUpdate } =
     useContext(AuthContext);
 
   useEffect(() => {
@@ -69,6 +73,7 @@ const NavBar = () => {
           }
 
           setCartItems(uniqueCart);
+          toggleCartUpdate();
           setTotal(
             res.data.reduce((total, item) => total + Number(item.price), 0)
           );
@@ -77,17 +82,55 @@ const NavBar = () => {
       .catch((error) => {
         console.log(error);
       });
+
+    axios
+      .get(
+        `https://localhost:7272/Api/Order/GetOrders/${localStorage.getItem(
+          "JapandiEmailId"
+        )}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("jwtToken"),
+            Accept: "application/json, text/plain, */*",
+            mode: "no-cors",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
+      .then((res) => {
+        setOrderItems(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [cartUpdate, isLoggedIn]);
 
+  useEffect(() => {
+    axios.get(`https://localhost:7272/api/Cart/GetLikeItems/${localStorage.getItem(
+      "JapandiEmailId"
+    )}`,
+    {
+      headers: {
+        Authorization: localStorage.getItem("jwtToken"),
+        Accept: "application/json, text/plain, */*",
+        mode: "no-cors",
+        "Access-Control-Allow-Origin": "*",
+      },
+    }).then((res) => {
+      setLikedItems(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }, [likeUpdate])
   const ConfirmOrder = (status) => {
     let cartData = [];
     cartItems.map((item, id) => {
       var obj = {};
-      obj.orderId = 0
-      obj.productId = item.id
-      obj.quantity = item.quantity
-      cartData.push(obj); 
-    })
+      obj.orderId = 0;
+      obj.productId = item.id;
+      obj.quantity = item.quantity;
+      cartData.push(obj);
+    });
 
     const config = {
       method: "post",
@@ -101,15 +144,17 @@ const NavBar = () => {
       data: {
         emailId: localStorage.getItem("JapandiEmailId"),
         orderItems: cartData,
-        status : status,
+        status: status,
       },
     };
 
-    axios(config).then((res) => {
-      console.log(res);
-    }).catch((error) => {
-      console.log(error)
-    })
+    axios(config)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     axios
       .get(
@@ -127,18 +172,44 @@ const NavBar = () => {
       )
       .then((res) => {
         setCartItems([]);
+        toggleCartUpdate();
         setTotal(0);
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+
+    axios
+      .get(
+        `https://localhost:7272/Api/Order/GetOrders/${localStorage.getItem(
+          "JapandiEmailId"
+        )}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("jwtToken"),
+            Accept: "application/json, text/plain, */*",
+            mode: "no-cors",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res, "lkfndjkbdjkb");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const showDrawer = () => {
     setOpenCart(!openCart);
   };
   const showOrders = () => {
     setOpenOrders(!openOrders);
+  };
+
+  const showWishList = () => {
+    setOpenWishlist(!openWishlist);
   };
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -152,7 +223,7 @@ const NavBar = () => {
               target="_blank"
               rel="noopener noreferrer"
               href="https://www.antgroup.com"
-              onClick={showOrders}
+              onClick={setOpenWishlist}
             >
               Wishlist &nbsp; &nbsp;
             </div>
@@ -328,21 +399,21 @@ const NavBar = () => {
                       Cash on delivery
                     </button>
                   </div>
-                    <div className="cart-pd-title w-100">
-                      <button
-                        className="payment p-2 w-100"
-                        onClick={() => {
-                          ConfirmOrder(2);
-                          setCheckout(false);
-                          messageApi.open({
-                            type: "success",
-                            content: "Order Confirmed",
-                          });
-                        }}
-                      >
-                        Pay online
-                      </button>
-                    </div>
+                  <div className="cart-pd-title w-100">
+                    <button
+                      className="payment p-2 w-100"
+                      onClick={() => {
+                        ConfirmOrder(2);
+                        setCheckout(false);
+                        messageApi.open({
+                          type: "success",
+                          content: "Order Confirmed",
+                        });
+                      }}
+                    >
+                      Pay online
+                    </button>
+                  </div>
                 </>
               )}
             </div>
@@ -351,8 +422,31 @@ const NavBar = () => {
         <Drawer title="Orders" onClose={showOrders} open={openOrders}>
           <div className="d-flex flex-column align-items-center justify-content-between">
             <div style={{ overflowY: "scroll" }}>
-              {cartItems.map((item, index) => {
-                return <CartItem isOrders={true} data={item} />;
+              {orderItems.map((item) => {
+                if (item?.products.length > 0) {
+                  return (
+                    <>
+                      <div className="cart-pd-remove mb-2">
+                        Order No: {item.orderId}
+                      </div>
+                      {item?.products.map((prod, id) => {
+                        return <CartItem isOrders={true} data={prod} />;
+                      })}
+                    </>
+                  );
+                }
+              })}
+            </div>
+          </div>
+        </Drawer>
+        <Drawer title="Wishlist" onClose={showWishList} open={openWishlist}>
+          <div
+            style={{ height: "100%" }}
+            className="d-flex flex-column align-items-center justify-content-between"
+          >
+            <div style={{ height: "100%", overflowY: "scroll" }}>
+              {likedItems.map((item, index) => {
+                return <LikedItem data={item} />;
               })}
             </div>
           </div>
