@@ -49,6 +49,15 @@
   font-family: "Comfortaa", sans-serif;
 }
 
+.add-review {
+  color: #606c5a;
+  font-weight: bold;
+  font-size: 16px;
+  font-family: "Comfortaa", sans-serif;
+  margin-right: 24px;
+  cursor: pointer;
+}
+
 .pd-discount {
   color: rgba(96, 108, 90, 0.7);
   font-weight: bold;
@@ -117,4 +126,8 @@
   height: 40px;
   width: 40px;
   border-radius: 50%;
+}
+
+.required {
+  color: red;
 }

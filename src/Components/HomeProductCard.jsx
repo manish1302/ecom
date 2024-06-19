@@ -1,14 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import pan from "../Assets/pan-removebg-preview.png";
-import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
-  BookFilled,
-  BookOutlined,
-  HeartFilled,
-  HeartOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +13,7 @@ const HomeProductCard = (props) => {
   const {data, onCardClick} = props;
   const [like, setLike] = useState(false);
   const navigate = useNavigate();
-  const {toggleLikeUpdate} = useContext(AuthContext)
+  const {toggleLikeUpdate, likeItems, setLikeItems} = useContext(AuthContext)
 
   useEffect(() => {
     const config = {
@@ -63,7 +57,7 @@ const HomeProductCard = (props) => {
     }
 
     axios(config).then((res) => {
-      console.log(res);
+      setLikeItems(res.data);
     }).catch((err) => {
       console.log(err)
     })

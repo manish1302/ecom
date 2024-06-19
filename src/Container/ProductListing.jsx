@@ -10,7 +10,8 @@ const ProductListing = () => {
   const [sortValue, setSortValue] = useState("Sort");
   const [products, setProducts] = useState();
   const { type } = useParams();
-  const {cartUpdate, toggleCartUpdate} = useContext(AuthContext);
+  const { cartUpdate, toggleCartUpdate, setCartItems } =
+    useContext(AuthContext);
 
   const Category = {
     living: 1,
@@ -112,28 +113,29 @@ const ProductListing = () => {
 
   const onCardClick = (id) => {
     const config = {
-      method : "post",
-      url : "https://localhost:7272/api/Cart/AddToCart",
-      headers : {
-        Authorization : localStorage.getItem("jwtToken"),
+      method: "post",
+      url: "https://localhost:7272/api/Cart/AddToCart",
+      headers: {
+        Authorization: localStorage.getItem("jwtToken"),
         Accept: "application/json, text/pflain, */*",
         mode: "no-cors",
         "Access-Control-Allow-Origin": "*",
       },
-      data : {
-        userEmailId : localStorage.getItem("JapandiEmailId"),
-        productId : id
-      }
-    }
+      data: {
+        userEmailId: localStorage.getItem("JapandiEmailId"),
+        productId: id,
+      },
+    };
 
-    axios(config).then((response) => {
-      toggleCartUpdate(!cartUpdate);
-    }).catch((error) => {
-      console.log(error); 
-    })
-  }
-
-
+    axios(config)
+      .then((res) => {
+          setCartItems(res.data);
+          toggleCartUpdate();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="Home">
@@ -168,7 +170,7 @@ const ProductListing = () => {
           console.log(item);
           return (
             <Col xs={12} sm={12} md={8} lg={6}>
-              <HomeProductCard onCardClick = {onCardClick} data={item} />
+              <HomeProductCard onCardClick={onCardClick} data={item} />
             </Col>
           );
         })}

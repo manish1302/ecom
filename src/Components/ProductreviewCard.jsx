@@ -3,9 +3,7 @@ import { Avatar, Rate } from "antd";
 import React from "react";
 import { Tooltip } from "antd";
 
-const ProductreviewCard = () => {
-  var review =
-    "That's a very fantastic chair, unbelievable, magnificient. How can people make this kind of chair, it's just brilliant.";
+const ProductreviewCard = ({data}) => {
 
   return (
     <div
@@ -17,16 +15,16 @@ const ProductreviewCard = () => {
       className=" review-card d-flex gap-2 flex-column justify-content-between"
     >
       <div className="d-flex align-items-center">
-        <Rate allowHalf defaultValue={2.5} /> &nbsp;&nbsp;{" "}
-        <div className="pd-percentage">2.5</div>
+        <Rate allowHalf defaultValue={2.5} value = {data.rating} /> &nbsp;&nbsp;{" "}
+        <div className="pd-percentage">{data.rating}</div>
       </div>
       <div className="pd-code">
-        {review.length > 80 ? (
-          <Tooltip title={review}>
-            <span>{review.slice(0, 77) + "..."}</span>
+        {data?.review.length > 80 ? (
+          <Tooltip title={data?.review}>
+            <span>{data?.review.slice(0, 77) + "..."}</span>
           </Tooltip>
         ) : (
-          review
+          data?.review
         )}
       </div>
       <div className="d-flex align-items-center">
@@ -38,8 +36,7 @@ const ProductreviewCard = () => {
         />
         &nbsp;&nbsp;
         <div>
-          <div className="username-review">Patrick jane</div>
-          <div className="pd-percentage">New York, USA, | 12hago</div>
+          <div className="username-review">{data.name}</div>  
         </div>
       </div>
     </div>

@@ -18,15 +18,14 @@ const NavBar = () => {
   const [openCart, setOpenCart] = useState(false);
   const [openOrders, setOpenOrders] = useState(false);
   const [openWishlist, setOpenWishlist] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [uniqueCartItems, setUniqueCartItems] = useState([]);
   const [orderItems, setOrderItems] = useState([]);
-  const [likedItems, setLikedItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [checkout, setCheckout] = useState(false);
   const navigate = useNavigate();
 
-  const { isLoggedIn, Authlogout, cartUpdate, toggleCartUpdate, likeUpdate } =
+  const { isLoggedIn, Authlogout, cartItems, toggleCartUpdate,setCartItems, likeItems, setLikeItems } =
     useContext(AuthContext);
 
   useEffect(() => {
@@ -45,39 +44,7 @@ const NavBar = () => {
         }
       )
       .then((res) => {
-        window.setTimeout(() => {
-          const cartData = res.data;
-          console.log(cartData);
-          const uniqueCart = [];
-          const itemMap = {};
-
-          // Iterate over each item in the cart
-          cartData.forEach((item) => {
-            // Create a unique key for each item (using productCode)
-            const key = item.productCode;
-
-            // Check if the item already exists in the map
-            if (itemMap[key]) {
-              // Increment the quantity of the existing item
-              itemMap[key].quantity += 1;
-            } else {
-              // Add the item to the map and set its initial quantity to 1
-              itemMap[key] = { ...item, quantity: 1 };
-            }
-          });
-
-          // Convert the map to an array
-          for (const key in itemMap) {
-            // Push each unique item into the uniqueCart array
-            uniqueCart.push(itemMap[key]);
-          }
-
-          setCartItems(uniqueCart);
-          toggleCartUpdate();
-          setTotal(
-            res.data.reduce((total, item) => total + Number(item.price), 0)
-          );
-        }, 10);
+        setCartItems(res.data)
       })
       .catch((error) => {
         console.log(error);
@@ -103,7 +70,43 @@ const NavBar = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [cartUpdate, isLoggedIn]);
+  }, [isLoggedIn]);
+
+
+  useEffect(() => {
+    window.setTimeout(() => {
+      const cartData = cartItems;
+      console.log(cartData);
+      const uniqueCart = [];
+      const itemMap = {};
+
+      // Iterate over each item in the cart
+      cartData.forEach((item) => {
+        // Create a unique key for each item (using productCode)
+        const key = item.productCode;
+
+        // Check if the item already exists in the map
+        if (itemMap[key]) {
+          // Increment the quantity of the existing item
+          itemMap[key].quantity += 1;
+        } else {
+          // Add the item to the map and set its initial quantity to 1
+          itemMap[key] = { ...item, quantity: 1 };
+        }
+      });
+
+      // Convert the map to an array
+      for (const key in itemMap) {
+        // Push each unique item into the uniqueCart array
+        uniqueCart.push(itemMap[key]);
+      }
+      uniqueCart.sort((a,b) => a.id - b.id);
+      setUniqueCartItems(uniqueCart);
+    }, 10);
+    setTotal(
+      cartItems.reduce((total, item) => total + Number(item.price), 0)
+    );
+  }, [cartItems])
 
   useEffect(() => {
     axios.get(`https://localhost:7272/api/Cart/GetLikeItems/${localStorage.getItem(
@@ -117,14 +120,69 @@ const NavBar = () => {
         "Access-Control-Allow-Origin": "*",
       },
     }).then((res) => {
-      setLikedItems(res.data)
+      setLikeItems(res.data)
     }).catch((err) => {
       console.log(err)
     })
-  }, [likeUpdate])
+  }, [isLoggedIn])
+
+  const removeLike = (data) => {
+    const config = {
+      method: "post",
+      url: "https://localhost:7272/api/Cart/RemoveLike",
+      headers: {
+        Authorization: localStorage.getItem("jwtToken"),
+        Accept: "application/json, text/pflain, */*",
+        mode: "no-cors",
+        "Access-Control-Allow-Origin": "*",
+      },
+      data: {
+        userEmailId: localStorage.getItem("JapandiEmailId"),
+        productId: data.id,
+      },
+    };
+
+    axios(config)
+      .then((response) => {
+        console.log(response, "likes")
+        setLikeItems(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const removeCart = (data) => {
+    const config = {
+      method: "post",
+      url: 'https://localhost:7272/api/Cart/RemoveCompleteFromCart',
+      headers: {
+        Authorization: localStorage.getItem("jwtToken"),
+        Accept: "application/json, text/pflain, */*",
+        mode: "no-cors",
+        "Access-Control-Allow-Origin": "*",
+      },
+      data: {
+        userEmailId: localStorage.getItem("JapandiEmailId"),
+        productId: data.id,
+      },
+    };
+
+    axios(config)
+        .then((response) => {
+          console.log("kdfdkjf", response);
+          setCartItems(response.data)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  }
+
+
+
   const ConfirmOrder = (status) => {
     let cartData = [];
-    cartItems.map((item, id) => {
+    cartItems?.map((item, id) => {
       var obj = {};
       obj.orderId = 0;
       obj.productId = item.id;
@@ -284,6 +342,7 @@ const NavBar = () => {
         },
       ];
 
+      console.log(uniqueCartItems, cartItems,  "cartData")
   return (
     <Loader isLoading={isLoading}>
       {contextHolder}
@@ -362,8 +421,8 @@ const NavBar = () => {
             className="d-flex flex-column align-items-center justify-content-between"
           >
             <div style={{ height: "80%", overflowY: "scroll" }}>
-              {cartItems.map((item, index) => {
-                return <CartItem data={item} />;
+              {uniqueCartItems.map((item, index) => {
+                return <CartItem removeCart={removeCart} data={item} />;
               })}
             </div>
             <Divider />
@@ -445,8 +504,8 @@ const NavBar = () => {
             className="d-flex flex-column align-items-center justify-content-between"
           >
             <div style={{ height: "100%", overflowY: "scroll" }}>
-              {likedItems.map((item, index) => {
-                return <LikedItem data={item} />;
+              {likeItems.map((item, index) => {
+                return <LikedItem data={item} removeLike = {removeLike} />;
               })}
             </div>
           </div>

@@ -2,14 +2,18 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Components/Loader";
+import { message } from "antd";
 import AuthContext from "../Context/AuthContext";
+import { EyeFilled, EyeInvisibleFilled, EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 const LoginContainer = () => {
   const [emailId, setEmailId] = useState(null);
   const [password, setPassword] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [eyeOpen, setEyeOpen] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const navigate = useNavigate();
-  const { Authlogout, Authlogin, toggleCartUpdate, cartUpdate } = useContext(AuthContext);
+  const { Authlogin, toggleCartUpdate, cartUpdate } = useContext(AuthContext);
 
 
   const refreshTokens = () => {
@@ -93,11 +97,18 @@ const LoginContainer = () => {
         navigate("/login");
         console.log(error);
         setIsLoading(false);
+        window.setTimeout(() => {
+          messageApi.open({
+            type: "error",
+            content: error?.response?.data?.status == 401 ? "Username or password is incorrect" : "Something's wrong",
+          });
+        }, 100)
       });
   };
 
   return (
     <Loader isLoading={isLoading}>
+      {contextHolder}
       <div className="login-container">
         <div className="login-box">
           <div className="login-title mb-3">THE.JAPANDI.STORE</div>
@@ -111,18 +122,24 @@ const LoginContainer = () => {
           </div>
           <div className="input-group">
             <input
-              type="password"
+              type={eyeOpen ? "text" : "password"}
               placeholder="Password"
               className="login-input"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             />
+            <div className="passwordEye" onClick={() => {setEyeOpen(!eyeOpen)}}>
+            {eyeOpen 
+            ? <EyeFilled style={{color : "rgba(96, 108, 90, 0.8)"}}/> 
+            : <EyeInvisibleFilled style={{color : "rgba(96, 108, 90, 0.8)"}}/>}
+            </div>
           </div>
           <button type="submit" className="login-button" onClick={handleSubmit}>
             Login
           </button>
-          <button className="signup-button">Sign Up</button>
+          <button className="signup-button" onClick={() => 
+            {navigate('/signup')}}>Sign Up</button>
         </div>
       </div>
     </Loader>

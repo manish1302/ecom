@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 .login-box {
@@ -17,6 +17,7 @@
 
 .input-group {
   margin-bottom: 20px;
+  position: relative;
 }
 
 .login-input {
@@ -34,6 +35,13 @@
 .login-input::placeholder {
   font-family: "Poppins", sans-serif;
   color: rgba(96, 108, 90, 0.4);
+}
+
+.passwordEye {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  cursor: pointer;
 }
 
 .login-button {

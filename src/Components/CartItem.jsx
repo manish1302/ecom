@@ -5,10 +5,9 @@ import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
 
-const CartItem = ({ isOrders, data }) => {
+const CartItem = ({ isOrders, data, removeCart }) => {
 
-  console.log(data);
-  const {cartUpdate, toggleCartUpdate} = useContext(AuthContext);
+  const {setCartItems} = useContext(AuthContext);
 
   const plusMinusClick = (plus) => {
       const config = {
@@ -28,13 +27,14 @@ const CartItem = ({ isOrders, data }) => {
 
       axios(config)
         .then((response) => {
-          toggleCartUpdate(!cartUpdate);
+          setCartItems(response.data)
         })
         .catch((error) => {
           console.log(error);
         });
   };
 
+  
   return (
     <div className="cartName">
       <div className="cart-img-bg">
@@ -63,8 +63,8 @@ const CartItem = ({ isOrders, data }) => {
           ) : (
             <div className="cart-pd-remove">Qty : {data?.stock}</div>
           )}
-          <div className="cart-pd-remove">
-            &nbsp;&nbsp;&nbsp; &nbsp;{isOrders ? "Cancel" : "Remove"}
+          <div className="cart-pd-remove" style={{cursor : "pointer"}} onClick = {() => removeCart(data)}>
+            &nbsp;&nbsp;&nbsp; &nbsp;{!isOrders && "Remove"}
           </div>
         </div>
       </div>
