@@ -139,7 +139,7 @@ const ProductListing = () => {
 
   return (
     <div className="Home">
-      <div className="w-100 d-flex align-items-center justify-content-end">
+      <div className=" d-flex align-items-center justify-content-end">
         <div style={{ padding: "16px" }}>
           <Dropdown
             menu={{
@@ -155,26 +155,17 @@ const ProductListing = () => {
           </Dropdown>
         </div>
       </div>
-      <Row
-        gutter={[
-          {
-            xs: 8,
-            sm: 16,
-            md: 24,
-            lg: 32,
-          },
-          24,
-        ]}
+      <div
+        className="listing-products"
       >
         {products?.map((item) => {
-          console.log(item);
           return (
-            <Col xs={12} sm={12} md={8} lg={6}>
+            <div>
               <HomeProductCard onCardClick={onCardClick} data={item} />
-            </Col>
+            </div>
           );
         })}
-      </Row>
+      </div>
     </div>
   );
 };

@@ -84,14 +84,12 @@ const Home = () => {
                 <div className="featured-products">
                   <div
                     className="featured-img-div h-50"
-                    style={{ position: "relative" }}
                   >
-                    {/* <img
+                    <img
                     src={chair}
                     alt=""
                     className="featured-img"
-                    style={{ position: "absolute" }}
-                  /> */}
+                  />
                   </div>
                   <div className="d-flex flex-column align-items-center justify-content-center h-50">
                     <div className="featured-name">Wolf Fur Chair</div>

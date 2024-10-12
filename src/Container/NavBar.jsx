@@ -76,7 +76,6 @@ const NavBar = () => {
   useEffect(() => {
     window.setTimeout(() => {
       const cartData = cartItems;
-      console.log(cartData);
       const uniqueCart = [];
       const itemMap = {};
 
@@ -144,7 +143,6 @@ const NavBar = () => {
 
     axios(config)
       .then((response) => {
-        console.log(response, "likes")
         setLikeItems(response.data);
       })
       .catch((error) => {
@@ -170,7 +168,6 @@ const NavBar = () => {
 
     axios(config)
         .then((response) => {
-          console.log("kdfdkjf", response);
           setCartItems(response.data)
         })
         .catch((error) => {
@@ -208,7 +205,6 @@ const NavBar = () => {
 
     axios(config)
       .then((res) => {
-        console.log(res);
       })
       .catch((error) => {
         console.log(error);
@@ -252,7 +248,6 @@ const NavBar = () => {
         }
       )
       .then((res) => {
-        console.log(res, "lkfndjkbdjkb");
       })
       .catch((err) => {
         console.log(err);
@@ -342,7 +337,6 @@ const NavBar = () => {
         },
       ];
 
-      console.log(uniqueCartItems, cartItems,  "cartData")
   return (
     <Loader isLoading={isLoading}>
       {contextHolder}

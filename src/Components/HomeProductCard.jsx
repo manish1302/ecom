@@ -1,23 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import pan from "../Assets/pan-removebg-preview.png";
+import { Images } from "../images";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import {
-  PlusOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
+import { Tooltip } from "antd";
 
 const HomeProductCard = (props) => {
-  const {data, onCardClick} = props;
+  const { data, onCardClick } = props;
   const [like, setLike] = useState(false);
   const navigate = useNavigate();
-  const {toggleLikeUpdate, likeItems, setLikeItems} = useContext(AuthContext)
+  const { toggleLikeUpdate, likeItems, setLikeItems } = useContext(AuthContext);
 
   useEffect(() => {
     const config = {
-      method : "post",
+      method: "post",
       url: "https://localhost:7272/api/Cart/IsLikedProduct",
       headers: {
         Authorization: localStorage.getItem("jwtToken"),
@@ -27,23 +27,27 @@ const HomeProductCard = (props) => {
       },
       data: {
         userEmailId: localStorage.getItem("JapandiEmailId"),
-        productId : data?.id
+        productId: data?.id,
       },
-    }
+    };
 
-    axios(config).then((res) => {
-      if(data.id == 32)console.log(res.data, "dkjbhdbg")
-      setLike(res.data)
-    }).catch((err) => {
-      console.log(err)
-    })
-  },[data])
+    axios(config)
+      .then((res) => {
+        if (data.id == 32) console.log(res.data, "dkjbhdbg");
+        setLike(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [data]);
 
   const handleLike = (e) => {
     e.stopPropagation();
     const config = {
-      method : "post",
-      url: like ? "https://localhost:7272/api/Cart/RemoveLike" : "https://localhost:7272/api/Cart/Like",
+      method: "post",
+      url: like
+        ? "https://localhost:7272/api/Cart/RemoveLike"
+        : "https://localhost:7272/api/Cart/Like",
       headers: {
         Authorization: localStorage.getItem("jwtToken"),
         Accept: "application/json, text/pflain, */*",
@@ -52,17 +56,19 @@ const HomeProductCard = (props) => {
       },
       data: {
         userEmailId: localStorage.getItem("JapandiEmailId"),
-        productId : data?.id
+        productId: data?.id,
       },
-    }
+    };
 
-    axios(config).then((res) => {
-      setLikeItems(res.data);
-    }).catch((err) => {
-      console.log(err)
-    })
+    axios(config)
+      .then((res) => {
+        setLikeItems(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-    toggleLikeUpdate()
+    toggleLikeUpdate();
     setLike(!like);
   };
 
@@ -70,13 +76,15 @@ const HomeProductCard = (props) => {
   //   setSave(!save);
   // };
 
-
   return (
-    <div className="Product-card" onClick = {() => {
-      navigate(`/product-detail/${data.id}`)
-    }}>
+    <div
+      className="Product-card"
+      onClick={() => {
+        navigate(`/product-detail/${data.id}`);
+      }}
+    >
       <div className="d-flex justify-content-between">
-        <div className="d-flex">
+        <div className="d-flex justify-content-between w-100">
           <div onClick={handleLike}>
             {/* <HeartOutlined /> */}
             {!like ? (
@@ -100,7 +108,7 @@ const HomeProductCard = (props) => {
           <div
             style={{ fontSize: "16px", color: "#606c5a", fontWeight: "600" }}
           >
-            {data?.rating?.toFixed(1)}
+            ⭐ {data?.rating?.toFixed(1)}
           </div>
         </div>
         {/* <div onClick={handleSave}>
@@ -111,18 +119,27 @@ const HomeProductCard = (props) => {
           )}
         </div> */}
       </div>
-      <div className="d-flex align-items-center justify-content-center">
+      <div className="w-100 d-flex align-items-center justify-content-center">
         <img
           style={{
-            height: "100px",
+            height: "150px",
+            width : "auto"
           }}
-          src={pan}
+          src={Images.Lamp}
           alt=""
         />
       </div>
       <div className="d-flex justify-content-between">
         <div style={{ width: "80%" }}>
-          <div className="featured-name">{data?.name}</div>
+          {data?.name.length > 15 ? (
+            <Tooltip title={data?.name}>
+              <div className="featured-name">
+                {data?.name.slice(0, 15) + "..."}
+              </div>
+            </Tooltip>
+          ) : (
+            <div className="featured-name">{data?.name}</div>
+          )}
           <div className="featured-name" style={{ fontWeight: 300 }}>
             ${data?.price}
           </div>
@@ -131,7 +148,7 @@ const HomeProductCard = (props) => {
           className=" d-flex align-items-center justify-content-center add-button-home"
           onClick={(event) => {
             event.stopPropagation();
-            onCardClick(data.id)
+            onCardClick(data.id);
           }}
         >
           <PlusOutlined />

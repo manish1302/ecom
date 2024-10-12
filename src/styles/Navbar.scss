@@ -20,7 +20,7 @@
 
 .cartName {
   width: 100%;
-  border: 1px solid #606c5a;
+  border: 1px solid rgba(96, 108, 90, 0.2);
   height: 140px;
   margin-bottom: 16px;
   border-radius: 16px;
@@ -83,4 +83,12 @@
   font-weight: 300;
   font-size: 12px;
   font-family: "Comfortaa", sans-serif;
+}
+
+.listing-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }

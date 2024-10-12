@@ -9,6 +9,12 @@ import ProductListing from "./Container/ProductListing";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AuthContext, { AuthProvider } from "./Context/AuthContext";
 import SignUpContainer from "./Container/SignUpContainer";
+import VendorsOnWheels from "./Container/VendorsOnWheels";
+import Chat from "./Container/Chat";
+import Payment from "./Container/Payment";
+import OrderConfirmed from "./Container/OrderConfirmed";
+import PaymentFailed from "./Container/PaymentFailed";
+import Home1 from "./Container/Home1";
 
 function App() {
   const isLoggedIn = localStorage.getItem("IsLoggedIn") === "true";
@@ -30,6 +36,12 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/products/:type" element={<ProductListing />} />
             <Route path="/product-detail/:id" element={<ProductDetail />} />
+            <Route path="wheels" element = {<VendorsOnWheels/>}/>
+            {/* <Route path = "chat" element = {<Chat />} /> */}
+            {/* <Route path = "payment" element ={<Payment />} /> */}
+            {/* <Route path = "success" element={<OrderConfirmed />} /> */}
+            {/* <Route path = "failure" element={<PaymentFailed />} /> */}
+            {/* <Route path = "/home1" element = {<Home1 />} /> */}
           </Routes>
         </BrowserRouter>
       </AuthProvider>

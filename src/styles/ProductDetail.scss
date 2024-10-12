@@ -117,12 +117,13 @@
   cursor: pointer;
   height: 40px;
   width: 40px;
+  background-color: rgba(96, 108, 90, 0.2);
   border-radius: 50%;
 }
 
 .add-button-home:hover {
   cursor: pointer;
-  background-color: rgba(96, 108, 90, 0.2);
+  background-color: rgba(96, 108, 90, 0.5);
   height: 40px;
   width: 40px;
   border-radius: 50%;
