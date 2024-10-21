@@ -25,8 +25,15 @@ const NavBar = () => {
   const [checkout, setCheckout] = useState(false);
   const navigate = useNavigate();
 
-  const { isLoggedIn, Authlogout, cartItems, toggleCartUpdate,setCartItems, likeItems, setLikeItems } =
-    useContext(AuthContext);
+  const {
+    isLoggedIn,
+    Authlogout,
+    cartItems,
+    toggleCartUpdate,
+    setCartItems,
+    likeItems,
+    setLikeItems,
+  } = useContext(AuthContext);
 
   useEffect(() => {
     axios
@@ -44,7 +51,7 @@ const NavBar = () => {
         }
       )
       .then((res) => {
-        setCartItems(res.data)
+        setCartItems(res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -72,7 +79,6 @@ const NavBar = () => {
       });
   }, [isLoggedIn]);
 
-
   useEffect(() => {
     window.setTimeout(() => {
       const cartData = cartItems;
@@ -99,31 +105,34 @@ const NavBar = () => {
         // Push each unique item into the uniqueCart array
         uniqueCart.push(itemMap[key]);
       }
-      uniqueCart.sort((a,b) => a.id - b.id);
+      uniqueCart.sort((a, b) => a.id - b.id);
       setUniqueCartItems(uniqueCart);
     }, 10);
-    setTotal(
-      cartItems.reduce((total, item) => total + Number(item.price), 0)
-    );
-  }, [cartItems])
+    setTotal(cartItems.reduce((total, item) => total + Number(item.price), 0));
+  }, [cartItems]);
 
   useEffect(() => {
-    axios.get(`https://localhost:7272/api/Cart/GetLikeItems/${localStorage.getItem(
-      "JapandiEmailId"
-    )}`,
-    {
-      headers: {
-        Authorization: localStorage.getItem("jwtToken"),
-        Accept: "application/json, text/plain, */*",
-        mode: "no-cors",
-        "Access-Control-Allow-Origin": "*",
-      },
-    }).then((res) => {
-      setLikeItems(res.data)
-    }).catch((err) => {
-      console.log(err)
-    })
-  }, [isLoggedIn])
+    axios
+      .get(
+        `https://localhost:7272/api/Cart/GetLikeItems/${localStorage.getItem(
+          "JapandiEmailId"
+        )}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("jwtToken"),
+            Accept: "application/json, text/plain, */*",
+            mode: "no-cors",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
+      .then((res) => {
+        setLikeItems(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [isLoggedIn]);
 
   const removeLike = (data) => {
     const config = {
@@ -153,7 +162,7 @@ const NavBar = () => {
   const removeCart = (data) => {
     const config = {
       method: "post",
-      url: 'https://localhost:7272/api/Cart/RemoveCompleteFromCart',
+      url: "https://localhost:7272/api/Cart/RemoveCompleteFromCart",
       headers: {
         Authorization: localStorage.getItem("jwtToken"),
         Accept: "application/json, text/pflain, */*",
@@ -167,15 +176,13 @@ const NavBar = () => {
     };
 
     axios(config)
-        .then((response) => {
-          setCartItems(response.data)
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  }
-
-
+      .then((response) => {
+        setCartItems(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const ConfirmOrder = (status) => {
     let cartData = [];
@@ -204,8 +211,7 @@ const NavBar = () => {
     };
 
     axios(config)
-      .then((res) => {
-      })
+      .then((res) => {})
       .catch((error) => {
         console.log(error);
       });
@@ -247,8 +253,7 @@ const NavBar = () => {
           },
         }
       )
-      .then((res) => {
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log(err);
       });
@@ -349,7 +354,8 @@ const NavBar = () => {
               navigate("/home");
             }}
           >
-            the.<span style={{ color: "var(--accent-color-1)" }}>KickFlip</span>.store
+            the.<span style={{ color: "var(--accent-color-1)" }}>KickFlip</span>
+            .store
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <div style={{}}></div>
@@ -360,13 +366,25 @@ const NavBar = () => {
             <Nav variant="underline">
               <Nav.Link
                 className="nav-menu"
-                onClick={() => navigate("products/living")}
+                onClick={() => navigate("products/latest")}
+              >
+                Latest
+              </Nav.Link>
+              <Nav.Link
+                className="nav-menu"
+                onClick={() => navigate("products/deals")}
+              >
+                Deals
+              </Nav.Link>
+              <Nav.Link
+                className="nav-menu"
+                onClick={() => navigate("products/designs")}
               >
                 Designs
               </Nav.Link>
               <Nav.Link
                 className="nav-menu"
-                onClick={() => navigate("products/bedroom")}
+                onClick={() => navigate("products/decks")}
               >
                 Decks
               </Nav.Link>
@@ -403,7 +421,12 @@ const NavBar = () => {
             </Nav>
           </Navbar.Collapse>
         </Container>
-        <Drawer  title="Cart" header = {{color : "white"}} onClose={showDrawer} open={openCart}>
+        <Drawer
+          title="Cart"
+          header={{ color: "white" }}
+          onClose={showDrawer}
+          open={openCart}
+        >
           <div
             style={{ height: "100%" }}
             className="d-flex flex-column align-items-center justify-content-between"
@@ -493,7 +516,7 @@ const NavBar = () => {
           >
             <div style={{ height: "100%", overflowY: "scroll" }}>
               {likeItems.map((item, index) => {
-                return <LikedItem data={item} removeLike = {removeLike} />;
+                return <LikedItem data={item} removeLike={removeLike} />;
               })}
             </div>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import chair from "../Assets/chair.png";
 import { HomeProductList } from "../common";
@@ -12,18 +12,13 @@ import Loader from "../Components/Loader";
 import { homeImages } from "../common";
 import axios from "axios";
 import Featured from "../Components/Featured";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState(0);
-  const [active, setActive] = useState(true);
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const breakPoints = [
-    { width: 1, itemsToShow: 1 },
-    { width: 550, itemsToShow: 2 },
-    { width: 768, itemsToShow: 3 },
-    { width: 1200, itemsToShow: 4 },
-  ];
   let images = [];
 
   for (let i = 1; i <= 10; i++) {
@@ -47,22 +42,27 @@ const Home = () => {
     );
   }
 
-  const headers = { Authorization: localStorage.getItem("jwtToken") };
-  axios
-    .get("https://localhost:7272/api/Main/GetAllProducts", { headers })
-    .then((response) => {
-      setProducts(response.data.slice(0, 4));
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  useEffect(() => {
+    const headers = { Authorization: localStorage.getItem("jwtToken") };
+    const url = currentTab === 0 ? 'https://localhost:7272/api/Main/GetLatest' : 'https://localhost:7272/api/Main/GetDeals'
+    axios
+      .get(url, {
+        headers,
+      })
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [currentTab]);
 
   return (
     <>
       <Loader isLoading={isLoading}>
         <div className="Home">
           <Container className="mt-3">
-            <Row style={{ height: "75vh", marginBottom : "24px" }}>
+            <Row style={{ height: "75vh", marginBottom: "24px" }}>
               <Col
                 lg={6}
                 xs={12}
@@ -81,11 +81,18 @@ const Home = () => {
                 <div className="Home-headline mb-4">The Arbour Curve.</div>
                 <div className="home-code mb-2">7FG38TYEG2</div>
                 <div className="Home-subheading mb-2">
-                  Bring a touch of nature into your home with The Arbor Curve, a
-                  beautifully crafted wooden bookshelf.
+                  The Arbour Curve skateboard is crafted for smooth, flowing
+                  rides with precision and style. Combining eco-friendly
+                  materials and dynamic design, it's perfect for effortless
+                  cruising and carving.
                 </div>
                 <hr />
-                <Button className="view-button mb-3">View More</Button>
+                <Button
+                  className="view-button mb-3"
+                  onClick={() => navigate("/product-detail/1021")}
+                >
+                  View More
+                </Button>
               </Col>
               <Col lg={6} xs={12} className="home-img-col">
                 <div className="banner">
@@ -109,24 +116,39 @@ const Home = () => {
               className="d-flex flex-column justify-content-center"
               style={{ height: "100vh" }}
             >
-              <div className="mb-4">
+              <div className="mb-4 d-flex justify-content-between align-items-center">
                 <div className="d-flex align-items-center">
                   {HomeProductList.map((item, id) => {
                     return (
-                      <HomeProductTabs
-                        name={item?.name}
-                        active={currentTab == id}
+                      <div
+                        className="d-flex flex-column justify-content-center mb-3 latest-deals"
+                        style={{ cursor: "pointer" }}
                         onClick={() => {
                           setCurrentTab(id);
                         }}
-                      />
+                      >
+                        <div
+                          className="product-tab-title"
+                          style={{ opacity: !(currentTab === id) && 0.5 }}
+                        >
+                          {item?.name}
+                        </div>
+                        <div
+                          className="product-tab-items"
+                          style={{ opacity: !(currentTab === id) && 0.5 }}
+                        >
+                          12 items
+                        </div>
+                      </div>
                     );
                   })}
                 </div>
+                <div style={{color : "var(--accent-color-2)"}}>{"see all >>"}</div>
               </div>
               <div>
                 <Row className="d-flex justify-content-between">
-                  {products?.map((item) => {
+                  {products?.map((item, id) => {
+                    if(id > 3) return;
                     return (
                       <Col sm={12} md={4} lg={3}>
                         <HomeProductCard data={item} />
@@ -176,14 +198,15 @@ const Home = () => {
                     style={{ width: "70%" }}
                     className="d-flex align-items-center justify-content-center flex-column"
                   >
-                    <div className="Zen-lounger-title mb-2 px-2">Midnight Flame</div>
+                    <div className="Zen-lounger-title mb-2 px-2">
+                      Midnight Flame
+                    </div>
                     <div className="Zen-lounger-body mb-3 px-2">
-                      Features a durable 7-ply
-                      maple deck with a striking black and fiery design.
-                      Equipped with ABEC-9 bearings for high speed, 52mm
-                      polyurethane wheels for smooth rides, and lightweight
-                      aluminum trucks, it's perfect for skaters seeking
-                      performance, agility, and style.
+                      Features a durable 7-ply maple deck with a striking black
+                      and fiery design. Equipped with ABEC-9 bearings for high
+                      speed, 52mm polyurethane wheels for smooth rides, and
+                      lightweight aluminum trucks, it's perfect for skaters
+                      seeking performance, agility, and style.
                     </div>
                     <div className="m-1">
                       <Button className="choose-a-chair mb-3">

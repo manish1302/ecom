@@ -35,7 +35,6 @@ const HomeProductCard = (props) => {
 
     axios(config)
       .then((res) => {
-        if (data.id == 32) console.log(res.data, "dkjbhdbg");
         setLike(res.data);
       })
       .catch((err) => {

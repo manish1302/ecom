@@ -4,6 +4,8 @@ import { Button, Col, Row } from "react-bootstrap";
 import { Avatar, Rate, Tooltip } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import ProductreviewCard from "../Components/ProductreviewCard";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
@@ -11,6 +13,7 @@ import AuthContext from "../Context/AuthContext";
 const ProductDetail = () => {
   const [data, setData] = useState({});
   const [review, setReview] = useState(false);
+  const [like, setLike] = useState(false);
   const [errors, setErrors] = useState(0);
   const [reviewData, setReviewData] = useState([]);
   const { id } = useParams();
@@ -19,6 +22,7 @@ const ProductDetail = () => {
   const [rate, setRate] = useState(0);
   const desc = ["terrible", "bad", "normal", "good", "wonderful"];
   const { setCartItems } = useContext(AuthContext);
+  const { toggleLikeUpdate, setLikeItems } = useContext(AuthContext);
 
   useEffect(() => {
     const headers = { Authorization: localStorage.getItem("jwtToken") };
@@ -44,9 +48,9 @@ const ProductDetail = () => {
       data: {
         emailId: localStorage.getItem("JapandiEmailId"),
         productId: id,
-        name: "string",
+        name: "",
         rating: 0,
-        review: "string",
+        review: "",
         reviewID: 0,
       },
     };
@@ -59,6 +63,31 @@ const ProductDetail = () => {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    const config = {
+      method: "post",
+      url: "https://localhost:7272/api/Cart/IsLikedProduct",
+      headers: {
+        Authorization: localStorage.getItem("jwtToken"),
+        Accept: "application/json, text/pflain, */*",
+        mode: "no-cors",
+        "Access-Control-Allow-Origin": "*",
+      },
+      data: {
+        userEmailId: localStorage.getItem("JapandiEmailId"),
+        productId: id,
+      },
+    };
+
+    axios(config)
+      .then((res) => {
+        setLike(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [id]);
 
   const addToCart = () => {
     const config = {
@@ -98,8 +127,6 @@ const ProductDetail = () => {
       setErrors(1);
     }
 
-    console.log(err, rate, name, "errpop");
-
     if (err == 0) {
       const config = {
         method: "post",
@@ -119,18 +146,63 @@ const ProductDetail = () => {
           name: name,
         },
       };
+
+      const headers = { Authorization: localStorage.getItem("jwtToken") };
+
       axios(config)
         .then((res) => {
           setReviewData(res.data);
+          axios
+            .get(`https://localhost:7272/api/Main/GetProductById/${id}`, {
+              headers,
+            })
+            .then((response) => {
+              setData(response.data);
+              console.log(response.data);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((err) => {});
       localStorage.removeItem(`review${id}`);
-      // localStorage.removeItem(`name${id}`);
+
       setReview(false);
       setRate(0);
       setDraft("");
       setErrors(0);
     }
+  };
+
+  const handleLike = (e) => {
+    e.stopPropagation();
+    const config = {
+      method: "post",
+      url: like
+        ? "https://localhost:7272/api/Cart/RemoveLike"
+        : "https://localhost:7272/api/Cart/Like",
+      headers: {
+        Authorization: localStorage.getItem("jwtToken"),
+        Accept: "application/json, text/pflain, */*",
+        mode: "no-cors",
+        "Access-Control-Allow-Origin": "*",
+      },
+      data: {
+        userEmailId: localStorage.getItem("JapandiEmailId"),
+        productId: data?.id,
+      },
+    };
+
+    axios(config)
+      .then((res) => {
+        setLikeItems(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    toggleLikeUpdate();
+    setLike(!like);
   };
 
   return (
@@ -150,7 +222,15 @@ const ProductDetail = () => {
         </div>
         <div className="product-image-div">
           <div className="pd-title">{data.name}</div>
-          <div className="pd-code mb-2">{data.productCode}</div>
+          <div className="d-flex align-item-center">
+            <div className="pd-code mb-2">{data.productCode}</div> &nbsp;&nbsp;
+            <div
+              className="pd-code"
+              style={{ color: "#fff", fontWeight: "600" }}
+            >
+              ⭐ {data?.rating?.toFixed(1)}
+            </div>
+          </div>
           <div className="pd-desc mb-3">{data.description}</div>
           <div className="d-flex">
             <div
@@ -185,10 +265,27 @@ const ProductDetail = () => {
           {data.discount != 0 && (
             <div className="pd-percentage mb-3">( {data.discount}%off )</div>
           )}
-          <div className="pd-title">
-            <Button className="choose-a-chair mb-3" onClick={addToCart}>
+          <div className="d-flex">
+            <Button className="choose-a-chair" onClick={addToCart}>
               Add to Cart
             </Button>
+            <div className="product-detail-wishlist mx-3" onClick={handleLike}>
+              {!like ? (
+                <FavoriteBorderIcon
+                  style={{
+                    color: "var(--accent-color-1)",
+                    cursor: "pointer",
+                  }}
+                />
+              ) : (
+                <FavoriteIcon
+                  style={{
+                    color: "var(--accent-color-1)",
+                    cursor: "pointer",
+                  }}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

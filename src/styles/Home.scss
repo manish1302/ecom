@@ -92,6 +92,17 @@
   font-weight: bold !important;
 }
 
+.product-detail-wishlist {
+  background-color: var(--bg-color-dark-op) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  color: #e6e4e0;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .view-button {
   background-color: var(--orange-primary) !important;
   border: none !important;

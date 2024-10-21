@@ -5,6 +5,7 @@ import { Col, Dropdown, Row, Space } from "antd";
 import { CloseOutlined, SortAscendingOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 import AuthContext from "../Context/AuthContext";
+import { typographyClasses } from "@mui/material";
 
 const ProductListing = () => {
   const [sortValue, setSortValue] = useState("Sort");
@@ -13,11 +14,31 @@ const ProductListing = () => {
   const { cartUpdate, toggleCartUpdate, setCartItems } =
     useContext(AuthContext);
 
+  useEffect(() => {
+    const headers = { Authorization: localStorage.getItem("jwtToken") };
+
+    const url =
+      type === "latest"
+        ? "https://localhost:7272/api/Main/GetLatest"
+        : type === "deals"
+        ? "https://localhost:7272/api/Main/GetDeals"
+        : "";
+
+    axios
+      .get(url, {
+        headers,
+      })
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [type]);
+
   const Category = {
-    living: 1,
-    bedroom: 2,
-    kitchen: 3,
-    bathroom: 4,
+    designs: 1,
+    decks: 2,
   };
 
   const items = [
@@ -100,7 +121,6 @@ const ProductListing = () => {
       )
       .then((response) => {
         setProducts(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -129,8 +149,8 @@ const ProductListing = () => {
 
     axios(config)
       .then((res) => {
-          setCartItems(res.data);
-          toggleCartUpdate();
+        setCartItems(res.data);
+        toggleCartUpdate();
       })
       .catch((error) => {
         console.log(error);
@@ -155,9 +175,7 @@ const ProductListing = () => {
           </Dropdown>
         </div>
       </div>
-      <div
-        className="listing-products"
-      >
+      <div className="listing-products">
         {products?.map((item) => {
           return (
             <div>

@@ -39,14 +39,14 @@
 }
 /* For WebKit (Chrome, Safari, etc.) */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
   scrollbar-color: red transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #606c5a;
+  background: var(--accent-color-1);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--accent-color-1);
 }
