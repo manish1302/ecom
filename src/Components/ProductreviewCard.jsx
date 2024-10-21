@@ -9,7 +9,7 @@ const ProductreviewCard = ({data}) => {
     <div
       style={{
         borderRadius: "8px",
-        border: "1px solid #606C5A",
+        border: "1px solid var(--text-color-dark)",
         padding: "16px",  
       }}
       className=" review-card d-flex gap-2 flex-column justify-content-between"

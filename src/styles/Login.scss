@@ -2,11 +2,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  height: 75vh;
+  margin-bottom: -100px;
 }
 
 .login-box {
-  background-color: rgba(96, 108, 90, 0.2);
+  background-color: var(--bg-color-dark-op);
   border-radius: 16px;
   padding: 20px;
   display: flex;
@@ -22,19 +23,19 @@
 
 .login-input {
   border: none;
-  border-bottom: 1px solid rgba(96, 108, 90, 0.5);
+  border-bottom: 1px solid var(--accent-color-2);
   outline: none;
   padding: 5px;
   margin-bottom: 10px;
   width: 100%;
   background: none;
   font-family: "Poppins", sans-serif;
-  color: #606c5a;
+  color: var(--accent-color-2);
 }
 
 .login-input::placeholder {
   font-family: "Poppins", sans-serif;
-  color: rgba(96, 108, 90, 0.4);
+  color: var(--accent-color-2)
 }
 
 .passwordEye {
@@ -45,7 +46,7 @@
 }
 
 .login-button {
-  background-color: rgb(96, 108, 90);
+  background-color: var(--accent-color-1);
   color: white;
   margin-bottom: 10px;
   padding: 4px;
@@ -56,26 +57,27 @@
 }
 
 .login-button:hover {
-    background-color: rgba(96, 108, 90, 0.8);
+    background-color: var(--accent-color-1);
+    opacity: 1;
 }
 
 .signup-button {
-  border: 1px solid #606c5a;
+  border: 1px solid var(--accent-color-1);
   width: 100%;
   border-radius: 8px;
   background: none;
   font-family: "Poppins", sans-serif;
   padding: 4px;
-  color: #606c5a;
+  color: var(--text-color-light);
 }
 
 .signup-button:hover {
-  background-color: rgba(96, 108, 90, 0.7);
+  background-color: var(--accent-color-1-bg);
   color: beige;
 }
 
 .login-title {
-  color: #606c5a;
+  color: var(--text-color-light);
   font-weight: 600;
   font-size: 24px;
   font-family: "Comfortaa", sans-serif;

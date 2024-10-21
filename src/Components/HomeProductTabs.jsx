@@ -6,8 +6,8 @@ const HomeProductTabs = ({ itemsCount, name, currentTab, active }) => {
       <div
         className="d-flex flex-column justify-content-center mb-3 latest-deals"
       >
-        <div className="product-tab-title" style={{opacity : active && 0.5}}>{name}</div>
-        <div className="product-tab-items" style={{opacity : active && 0.5}}>12 items</div>
+        <div className="product-tab-title" style={{opacity : !active && 0.5}}>{name}</div>
+        <div className="product-tab-items" style={{opacity : !active && 0.5}}>12 items</div>
       </div>
   );
 };

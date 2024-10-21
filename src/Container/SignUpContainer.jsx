@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../Components/Loader";
 import { message } from "antd";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
+import bwimage from '../Assets/Skates/image2.jpg'
+
 const SignUpContainer = () => {
   const [emailId, setEmailId] = useState(null);
   const [password, setPassword] = useState(null);
@@ -71,9 +73,9 @@ const SignUpContainer = () => {
     <div>
       {contextHolder}
       <Loader isLoading={isLoading}>
-        <div className="login-container">
+        <div className="login-container"  style={{background: `url(${bwimage})`}}>
           <div className="login-box">
-            <div className="login-title mb-3">THE.JAPANDI.STORE</div>
+            <div className="login-title mb-3"><span style={{color : "var(--text-color-dark"}}>THE</span>.KICKFLIP.<span style={{color : "var(--text-color-dark"}}>STORE</span></div>
             <div className="input-group">
               <input
                 type="email"
@@ -100,10 +102,10 @@ const SignUpContainer = () => {
                 }}
               >
                 {eyeOpen ? (
-                  <EyeFilled style={{ color: "rgba(96, 108, 90, 0.8)" }} />
+                  <EyeFilled style={{ color: "var(--accent-color-2)" }} />
                 ) : (
                   <EyeInvisibleFilled
-                    style={{ color: "rgba(96, 108, 90, 0.8)" }}
+                    style={{ color: "var(--accent-color-2)" }}
                   />
                 )}
               </div>
@@ -124,10 +126,10 @@ const SignUpContainer = () => {
                 }}
               >
                 {eyeOpen2 ? (
-                  <EyeFilled style={{ color: "rgba(96, 108, 90, 0.8)" }} />
+                  <EyeFilled style={{ color: "var(--accent-color-2)" }} />
                 ) : (
                   <EyeInvisibleFilled
-                    style={{ color: "rgba(96, 108, 90, 0.8)" }}
+                    style={{ color: "var(--accent-color-2)" }}
                   />
                 )}
               </div>

@@ -1,7 +1,7 @@
 .product-img-backgroud {
   width: 500px;
   height: 500px;
-  background: rgba(96, 108, 90, 0.2);
+  background: rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,42 +15,42 @@
 }
 
 .pd-title {
-  color: #606c5a;
+  color: var(--text-color-light);
   font-weight: bold;
   font-size: 40px;
-  font-family: "Comfortaa", sans-serif;
+  font-family: "poppins", sans-serif;
 }
 
 .pd-code {
-  color: #a8a194;
+  color: var(--accent-color-2);
   font-weight: 300;
   font-size: 16px;
-  font-family: "Comfortaa", sans-serif;
+  font-family: "poppins", sans-serif;
 }
 
 .pd-desc {
-  color: #a8a194;
+  color: var(--accent-color-2);
   font-weight: 400;
   font-size: 18px;
   font-family: "Comfortaa", sans-serif;
 }
 
 .pd-colordesc {
-  color: #a8a194;
+  color: var(--accent-color-2);
   font-weight: 300;
   font-size: 14px;
   font-family: "Comfortaa", sans-serif;
 }
 
 .pd-cost {
-  color: #606c5a;
+  color: var(--text-color-light);
   font-weight: bold;
   font-size: 32px;
   font-family: "Comfortaa", sans-serif;
 }
 
 .add-review {
-  color: #606c5a;
+  color: var(--accent-color-2);
   font-weight: bold;
   font-size: 16px;
   font-family: "Comfortaa", sans-serif;
@@ -59,7 +59,7 @@
 }
 
 .pd-discount {
-  color: rgba(96, 108, 90, 0.7);
+  color: var(--text-color-dark);
   font-weight: bold;
   font-size: 32px;
   font-family: "Comfortaa", sans-serif;
@@ -74,7 +74,7 @@
 }
 
 .username-review {
-  color: #606c5a;
+  color: var(--text-color-light);
   font-weight: 500;
   font-size: 16px;
   font-family: "Comfortaa", sans-serif;
@@ -97,7 +97,7 @@
   .product-img-backgroud {
     width: 350px;
     height: 350px;
-    background: rgba(96, 108, 90, 0.2);
+    background: rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -117,13 +117,13 @@
   cursor: pointer;
   height: 40px;
   width: 40px;
-  background-color: rgba(96, 108, 90, 0.2);
+  background-color: rgba(256, 256, 256, 0.01);
   border-radius: 50%;
 }
 
 .add-button-home:hover {
   cursor: pointer;
-  background-color: rgba(96, 108, 90, 0.5);
+  background-color: rgba(256, 256, 256, 0.08);
   height: 40px;
   width: 40px;
   border-radius: 50%;
@@ -131,4 +131,9 @@
 
 .required {
   color: red;
+}
+
+.custom-rate .ant-rate-star:not(.ant-rate-star-full):not(.ant-rate-star-half) .ant-rate-star-first,
+.custom-rate .ant-rate-star:not(.ant-rate-star-full):not(.ant-rate-star-half) .ant-rate-star-second {
+  color: var(--text-color-dark); /* Your custom color for empty stars */
 }

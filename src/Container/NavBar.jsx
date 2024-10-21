@@ -349,7 +349,7 @@ const NavBar = () => {
               navigate("/home");
             }}
           >
-            the<span style={{ color: "#606C5A" }}>JAPANDI</span>store
+            the.<span style={{ color: "var(--accent-color-1)" }}>KickFlip</span>.store
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <div style={{}}></div>
@@ -362,25 +362,19 @@ const NavBar = () => {
                 className="nav-menu"
                 onClick={() => navigate("products/living")}
               >
-                Living
+                Designs
               </Nav.Link>
               <Nav.Link
                 className="nav-menu"
                 onClick={() => navigate("products/bedroom")}
               >
-                Bedroom
+                Decks
               </Nav.Link>
               <Nav.Link
                 className="nav-menu"
-                onClick={() => navigate("products/kitchen")}
+                onClick={() => navigate("dashboard")}
               >
-                Kitchen
-              </Nav.Link>
-              <Nav.Link
-                className="nav-menu"
-                onClick={() => navigate("products/bathroom")}
-              >
-                Bathroom
+                Dashboard
               </Nav.Link>
               <Nav.Link className="nav-menu">
                 <FontAwesomeIcon icon={faSearch} />
@@ -402,14 +396,14 @@ const NavBar = () => {
               <Nav.Link className="nav-menu" onClick={showDrawer}>
                 <Space size="middle">
                   <Badge size="small" count={cartItems?.length}>
-                    <FontAwesomeIcon icon={faCartShopping} />
+                    <FontAwesomeIcon color="white" icon={faCartShopping} />
                   </Badge>
                 </Space>
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
-        <Drawer title="Cart" onClose={showDrawer} open={openCart}>
+        <Drawer  title="Cart" header = {{color : "white"}} onClose={showDrawer} open={openCart}>
           <div
             style={{ height: "100%" }}
             className="d-flex flex-column align-items-center justify-content-between"

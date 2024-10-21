@@ -15,10 +15,13 @@ import Payment from "./Container/Payment";
 import OrderConfirmed from "./Container/OrderConfirmed";
 import PaymentFailed from "./Container/PaymentFailed";
 import Home1 from "./Container/Home1";
+import Dashboard from "./Container/Dashboard";
+import AddAProduct from "./Container/AddAProduct";
+import bwimage from "./Assets/Skates/image2.jpg"
 
 function App() {
   const isLoggedIn = localStorage.getItem("IsLoggedIn") === "true";
-;
+
   return (
     <div className="App">
       <AuthProvider>
@@ -37,6 +40,8 @@ function App() {
             <Route path="/products/:type" element={<ProductListing />} />
             <Route path="/product-detail/:id" element={<ProductDetail />} />
             <Route path="wheels" element = {<VendorsOnWheels/>}/>
+            <Route path = "/dashboard" element = {<Dashboard />} />
+            <Route path = "/dashboard/add" element = {<AddAProduct />} />
             {/* <Route path = "chat" element = {<Chat />} /> */}
             {/* <Route path = "payment" element ={<Payment />} /> */}
             {/* <Route path = "success" element={<OrderConfirmed />} /> */}

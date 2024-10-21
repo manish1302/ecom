@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import bwimage from '../Assets/Skates/image2.jpg'
 import Loader from "../Components/Loader";
 import { message } from "antd";
 import AuthContext from "../Context/AuthContext";
@@ -109,9 +110,9 @@ const LoginContainer = () => {
   return (
     <Loader isLoading={isLoading}>
       {contextHolder}
-      <div className="login-container">
+      <div className="login-container" style={{background: `url(${bwimage})`}}>
         <div className="login-box">
-          <div className="login-title mb-3">THE.JAPANDI.STORE</div>
+          <div className="login-title mb-3"><span style={{color : "var(--text-color-dark"}}>THE</span>.KICKFLIP.<span style={{color : "var(--text-color-dark"}}>STORE</span></div>
           <div className="input-group">
             <input
               type="email"
@@ -131,8 +132,8 @@ const LoginContainer = () => {
             />
             <div className="passwordEye" onClick={() => {setEyeOpen(!eyeOpen)}}>
             {eyeOpen 
-            ? <EyeFilled style={{color : "rgba(96, 108, 90, 0.8)"}}/> 
-            : <EyeInvisibleFilled style={{color : "rgba(96, 108, 90, 0.8)"}}/>}
+            ? <EyeFilled style={{color : "var(--accent-color-2)"}}/> 
+            : <EyeInvisibleFilled style={{color : "var(--accent-color-2)"}}/>}
             </div>
           </div>
           <button type="submit" className="login-button" onClick={handleSubmit}>

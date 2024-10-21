@@ -1,0 +1,64 @@
+.admin-dashboard {
+    padding: 20px;
+  }
+  
+  .cards-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .admin-card {
+    background-color: var(--bg-table) !important;
+    border: 1px solid var(--bg-table);
+    color: var(--text-color-light) !important;
+    border-radius: 8px;
+    padding: 20px;
+    width: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-card h3 {  
+    font-size: 20px;
+    color: var(--accent-color-2);
+  }
+
+  .admin-card div {
+    font-weight: 600;
+    font-size: 32px;
+  }
+  
+  .table-container {
+    margin-top: 20px;
+  }
+  
+  .product-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .product-table th,
+  .product-table td {
+    border: 1px solid var(--text-color-dark);
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .product-table th {
+    background-color: var(--bg-table);
+    font-weight: bold;
+    color: var(--text-color-light);
+  }
+
+  .product-table td {
+    color: var(--accent-color-2);
+  }
+  
+  .product-table tr:nth-child(even) {
+    background-color: var(--bg-table-even);
+  }
+  
+  .product-table tr:hover {
+    background-color: var(--bg-table-even);
+  }
+  

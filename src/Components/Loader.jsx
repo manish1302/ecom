@@ -6,7 +6,7 @@ const Loader = ({ children, isLoading }) => {
     <div
       className="Loader d-flex align-items-center flex-column justify-content-center"
     >
-      <Bars fill="#606c5a" height="30px" scale={2} />
+      <Bars fill="var(--accent-color-1)" height="30px" scale={2} />
       <div className="login-title mt-2">Getting you in...</div>
     </div>
   ) : (

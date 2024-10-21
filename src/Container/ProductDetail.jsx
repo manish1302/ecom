@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import OrangeChair from "../Assets/orangechair.png";
+import productImage from "../Assets/Skates/pbg1.png";
 import { Button, Col, Row } from "react-bootstrap";
 import { Avatar, Rate, Tooltip } from "antd";
 import { UserOutlined } from "@ant-design/icons";
@@ -142,7 +142,7 @@ const ProductDetail = () => {
               <img
                 style={{ opacity: 1 }}
                 className="pd-img-width"
-                src={OrangeChair}
+                src={productImage}
                 alt=""
               />
             </div>
@@ -203,9 +203,19 @@ const ProductDetail = () => {
           {review ? "Cancel" : "+ Add Review"}
         </div>
       </div>
+      {reviewData?.length == 0 ? (
+        <div className="mb-3" style={{ color: "var(--text-color-dark)" }}>
+          No reviews. Be the first one.
+        </div>
+      ) : (
+        <div className="mb-3" style={{ color: "var(--text-color-dark)" }}>
+          {reviewData?.length} Reviews
+        </div>
+      )}
       {review && (
         <div className="w-100 ">
           <Rate
+            className="custom-rate"
             tooltips={desc}
             allowHalf
             defaultValue={2.5}

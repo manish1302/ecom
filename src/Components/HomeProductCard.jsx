@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../Context/AuthContext";
 import { Tooltip } from "antd";
+import { homeImages } from "../common";
+import pbg1 from '../Assets/Skates/pbg1.png'
 
 const HomeProductCard = (props) => {
   const { data, onCardClick } = props;
@@ -90,7 +92,7 @@ const HomeProductCard = (props) => {
             {!like ? (
               <FavoriteBorderIcon
                 style={{
-                  color: "#606c5a",
+                  color: "var(--accent-color-1)",
                   marginRight: "4px",
                   cursor: "pointer",
                 }}
@@ -98,7 +100,7 @@ const HomeProductCard = (props) => {
             ) : (
               <FavoriteIcon
                 style={{
-                  color: "#606c5a",
+                  color: "var(--accent-color-1)",
                   marginRight: "4px",
                   cursor: "pointer",
                 }}
@@ -106,9 +108,9 @@ const HomeProductCard = (props) => {
             )}
           </div>
           <div
-            style={{ fontSize: "16px", color: "#606c5a", fontWeight: "600" }}
+            style={{ fontSize: "16px", color: "#fff", fontWeight: "600" }}
           >
-            ⭐ {data?.rating?.toFixed(1)}
+            {data?.rating?.toFixed(1)}
           </div>
         </div>
         {/* <div onClick={handleSave}>
@@ -119,13 +121,13 @@ const HomeProductCard = (props) => {
           )}
         </div> */}
       </div>
-      <div className="w-100 d-flex align-items-center justify-content-center">
+      <div className="w-100 my-2 d-flex align-items-center justify-content-center">
         <img
           style={{
             height: "150px",
             width : "auto"
           }}
-          src={Images.Lamp}
+          src={pbg1}
           alt=""
         />
       </div>
@@ -133,14 +135,14 @@ const HomeProductCard = (props) => {
         <div style={{ width: "80%" }}>
           {data?.name.length > 15 ? (
             <Tooltip title={data?.name}>
-              <div className="featured-name">
+              <div className="featured-card-name">
                 {data?.name.slice(0, 15) + "..."}
               </div>
             </Tooltip>
           ) : (
-            <div className="featured-name">{data?.name}</div>
+            <div className="featured-card-name">{data?.name}</div>
           )}
-          <div className="featured-name" style={{ fontWeight: 300 }}>
+          <div className="featured-card-name" style={{ fontWeight: 300 }}>
             ${data?.price}
           </div>
         </div>
@@ -151,7 +153,7 @@ const HomeProductCard = (props) => {
             onCardClick(data.id);
           }}
         >
-          <PlusOutlined />
+          <PlusOutlined style={{color : "var(--accent-color-2)"}}/>
         </div>
       </div>
     </div>

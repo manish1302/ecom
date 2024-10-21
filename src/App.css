@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Josefin+Slab:wght@100;600&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:wght@100;200;300;400;500;600;700&family=Roboto:wght@100;300;400;500;700;900&family=Sometype+Mono&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Josefin+Slab:wght@100;600&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:wght@100;200;300;400;500;600;700&family=Roboto:wght@100;300;400;500;700;900&family=Sometype+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bangers&display=swap");
 
 /* // .comfortaa-<uniquifier> {
 //     font-family: "Comfortaa", sans-serif;
@@ -17,30 +18,35 @@
 //   }
    */
 
+/* .bangers-regular {
+  font-family: "Bangers", system-ui;
+  font-weight: 400;
+  font-style: normal;
+} */
 
-@import './styles/Home.scss';
-@import './styles/Helper.scss';
-@import './styles/Navbar.scss';
-@import './styles/ProductDetail.scss';
-@import './styles/Login.scss';
-@import './styles/Loader.scss';
-
+@import "./styles/Home.scss";
+@import "./styles/Helper.scss";
+@import "./styles/Navbar.scss";
+@import "./styles/ProductDetail.scss";
+@import "./styles/Login.scss";
+@import "./styles/Loader.scss";
+@import "./Variable.scss";
+@import "./styles/Dashboard.scss";
 
 .App {
-  background-color: #F3F0E8;
+  background-color: var(--dark-blue);
   min-height: 100vh;
 }
 /* For WebKit (Chrome, Safari, etc.) */
 ::-webkit-scrollbar {
-   width: 8px;
-   scrollbar-color: red transparent;
- }
- 
- ::-webkit-scrollbar-thumb {
-   background: #606c5a;
- }
- 
- ::-webkit-scrollbar-thumb:hover {
-   background: #555;
- }
- 
+  width: 8px;
+  scrollbar-color: red transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #606c5a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

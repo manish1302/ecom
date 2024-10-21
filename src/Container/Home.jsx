@@ -1,26 +1,18 @@
-import {
-  faCartShopping,
-  faSearch,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import NavBar from "./NavBar";
-import { Button, Col, Container, Nav, Row } from "react-bootstrap";
-import homeimg from "../Assets/booktable.jpg";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import chair from "../Assets/chair.png";
-import lamp from "../Assets/lamp.png";
-import giraffe from "../Assets/orangechair.png";
 import { HomeProductList } from "../common";
 import HomeProductTabs from "../Components/HomeProductTabs";
 import HomeProductCard from "../Components/HomeProductCard";
-import LessClutter from "../Assets/House.jpg";
-import MoreLiving from "../Assets/sculpture.jpg";
-import ZenLounger from "../Assets/zenlounge.png";
-import { Skeleton } from "antd";
+import shaky from "../Assets/Skates/image1.jpg";
+import carJump from "../Assets/Skates/image3.jpg";
+import MidnightFlame from "../Assets/Skates/special2.png";
 import { Footer } from "antd/es/layout/layout";
 import Loader from "../Components/Loader";
+import { homeImages } from "../common";
 import axios from "axios";
+import Featured from "../Components/Featured";
+
 const Home = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [active, setActive] = useState(true);
@@ -32,16 +24,32 @@ const Home = () => {
     { width: 768, itemsToShow: 3 },
     { width: 1200, itemsToShow: 4 },
   ];
-  const handleLoad = () => {
-    setActive(false);
-  };
+  let images = [];
+
+  for (let i = 1; i <= 10; i++) {
+    let angle = (i - 1) * 36;
+    images.push(
+      <div
+        className="item"
+        style={{ transform: `rotateY(${angle}deg) translateZ(200px)` }}
+        key={i}
+      >
+        <img
+          style={{
+            height: "300px",
+            width: "auto",
+            transform: "rotateZ(30deg)",
+          }}
+          src={homeImages[i]}
+          alt=""
+        />
+      </div>
+    );
+  }
 
   const headers = { Authorization: localStorage.getItem("jwtToken") };
   axios
-    .get(
-      "https://localhost:7272/api/Main/GetAllProducts",
-      { headers }
-    )
+    .get("https://localhost:7272/api/Main/GetAllProducts", { headers })
     .then((response) => {
       setProducts(response.data.slice(0, 4));
     })
@@ -54,74 +62,54 @@ const Home = () => {
       <Loader isLoading={isLoading}>
         <div className="Home">
           <Container className="mt-3">
-            <Row>
-              <Col lg={6} xs={12} className="d-flex gap-2">
-                <div className="d-flex flex-column align-items-start">
-                  <div className="Home-headline mb-4">
-                    Harmony in Design, Tranquility in Living
-                  </div>
-                  <div className="Home-subheading mb-4">
-                    Refresh your living space with our curated minimalist
-                    furniture range, uniquely designed to complement your
-                    lifestyle, in exchange for your old items."
-                  </div>
-                  <Button className="choose-a-chair mb-3">
-                    Choose a chair
-                  </Button>
+            <Row style={{ height: "75vh", marginBottom : "24px" }}>
+              <Col
+                lg={6}
+                xs={12}
+                style={{ zIndex: 1 }}
+                className="d-flex flex-column align-items-start justify-content-center"
+              >
+                <div className="Home-designer-name mb-4">
+                  Designed by David John
                 </div>
+                <div
+                  className="Home-headline mb-4"
+                  style={{ position: "relative" }}
+                >
+                  <div className="Home-bg-text">The Arbour Curve.</div>
+                </div>
+                <div className="Home-headline mb-4">The Arbour Curve.</div>
+                <div className="home-code mb-2">7FG38TYEG2</div>
+                <div className="Home-subheading mb-2">
+                  Bring a touch of nature into your home with The Arbor Curve, a
+                  beautifully crafted wooden bookshelf.
+                </div>
+                <hr />
+                <Button className="view-button mb-3">View More</Button>
               </Col>
               <Col lg={6} xs={12} className="home-img-col">
-                <img
-                  src={homeimg}
-                  alt=""
-                  onLoad={handleLoad}
-                  className="home-img"
-                />
+                <div className="banner">
+                  <div className="slider">{images}</div>
+                </div>
               </Col>
             </Row>
+            <div className="featured-text">Featured.</div>
             <Row className="mb-5 mt-5">
               <Col lg={4} md={4} sm={12} className="mb-3">
-                <div className="featured-products">
-                  <div
-                    className="featured-img-div h-50"
-                  >
-                    <img
-                    src={chair}
-                    alt=""
-                    className="featured-img"
-                  />
-                  </div>
-                  <div className="d-flex flex-column align-items-center justify-content-center h-50">
-                    <div className="featured-name">Wolf Fur Chair</div>
-                    <div className="featured-name">$120</div>
-                  </div>
-                </div>
+                <Featured />
               </Col>
               <Col lg={4} md={4} sm={12} className="mb-3">
-                <div className="featured-products">
-                  <div className="featured-img-div h-50">
-                    {/* <img src={lamp} alt="" className="featured-img" /> */}
-                  </div>
-                  <div className="d-flex flex-column align-items-center justify-content-center h-50">
-                    <div className="featured-name">Desert Cactus Lamp</div>
-                    <div className="featured-name">$108.50</div>
-                  </div>
-                </div>
+                <Featured />
               </Col>
               <Col lg={4} md={4} sm={12} className="mb-3">
-                <div className="featured-products">
-                  <div className="featured-img-div h-50">
-                    {/* <img src={giraffe} alt="" className="featured-img" /> */}
-                  </div>
-                  <div className="d-flex flex-column align-items-center justify-content-center h-50">
-                    <div className="featured-name">Giraffee leg chair</div>
-                    <div className="featured-name">$79.60</div>
-                  </div>
-                </div>
+                <Featured />
               </Col>
             </Row>
-            <Row className="d-flex flex-column">
-              <Col>
+            <div
+              className="d-flex flex-column justify-content-center"
+              style={{ height: "100vh" }}
+            >
+              <div className="mb-4">
                 <div className="d-flex align-items-center">
                   {HomeProductList.map((item, id) => {
                     return (
@@ -135,19 +123,19 @@ const Home = () => {
                     );
                   })}
                 </div>
-              </Col>
-              <Col>
+              </div>
+              <div>
                 <Row className="d-flex justify-content-between">
                   {products?.map((item) => {
                     return (
                       <Col sm={12} md={4} lg={3}>
-                        <HomeProductCard  data = {item}/>
+                        <HomeProductCard data={item} />
                       </Col>
                     );
                   })}
                 </Row>
-              </Col>
-            </Row>
+              </div>
+            </div>
             <Row className="m-5">
               <Col
                 lg={6}
@@ -155,36 +143,47 @@ const Home = () => {
                 className="d-flex flex-column align-items-end"
               >
                 <div style={{ width: "70%" }}>
-                  <img src={LessClutter} style={{ width: "100%" }} alt="" />
-                  <div>Less Clutter.</div>
+                  <img src={shaky} style={{ width: "100%" }} alt="" />
+                  <div className="Home-subheading">
+                    <i>Live Less.</i>
+                  </div>
                 </div>
               </Col>
               <Col lg={6} sm={12}>
-                <img src={MoreLiving} style={{ width: "70%" }} alt="" />
-                <div>More Living.</div>
+                <img src={carJump} style={{ width: "70%" }} alt="" />
+                <div className="Home-subheading">
+                  <i>Skate More.</i>
+                </div>
               </Col>
             </Row>
-            <Row>
+            <Row className="d-flex justify-content-center w-100">
               <div
-                className="d-flex align-items-center w-100"
-                style={{ position: "relative" }}
+                className="d-flex align-items-center "
+                style={{ position: "relative", width: "85%" }}
               >
                 <div style={{ zIndex: 1 }}>
-                  <img src={ZenLounger} alt="" />
+                  <img
+                    src={MidnightFlame}
+                    alt=""
+                    style={{ transform: "rotate(-90deg)" }}
+                  />
                 </div>
                 <div
                   className="zen-lounger-details"
                   style={{ position: "absolute", right: 0 }}
                 >
                   <div
-                    style={{ width: "50%" }}
+                    style={{ width: "70%" }}
                     className="d-flex align-items-center justify-content-center flex-column"
                   >
-                    <div className="Zen-lounger-title m-1">Zen Lounger</div>
-                    <div className="Zen-lounger-body m-1">
-                      “Introducing our Zen Lounge: A harmonious blend of
-                      minimalist design and ultimate comfort. Crafted with clean
-                      lines and plush cushions.”
+                    <div className="Zen-lounger-title mb-2 px-2">Midnight Flame</div>
+                    <div className="Zen-lounger-body mb-3 px-2">
+                      Features a durable 7-ply
+                      maple deck with a striking black and fiery design.
+                      Equipped with ABEC-9 bearings for high speed, 52mm
+                      polyurethane wheels for smooth rides, and lightweight
+                      aluminum trucks, it's perfect for skaters seeking
+                      performance, agility, and style.
                     </div>
                     <div className="m-1">
                       <Button className="choose-a-chair mb-3">
@@ -208,7 +207,7 @@ const Home = () => {
                     color: "#E6E4E0",
                   }}
                 >
-                  THE JAPANDI
+                  THE KICKFLIP
                 </span>{" "}
                 Store
               </h3>
@@ -216,10 +215,8 @@ const Home = () => {
             <div className="d-flex w-50 justify-content-end">
               <div className="footer-products me-5">
                 <h5>Products</h5>
-                <div>Living</div>
-                <div>Bedroom</div>
-                <div>Kitchen</div>
-                <div>Bathoom</div>
+                <div>Designs</div>
+                <div>Decks</div>
               </div>
               <div className="footer-products me-5">
                 <h5>Community</h5>
@@ -229,16 +226,15 @@ const Home = () => {
               </div>
               <div className="footer-products">
                 <h5>Contact</h5>
-                <div>Living</div>
-                <div>Bedroom</div>
-                <div>Kitchen</div>
-                <div>Bathoom</div>
+                <div>Instagram</div>
+                <div>Facebook</div>
+                <div>Youtube</div>
               </div>
             </div>
           </div>
           <div className="terms-row d-flex justify-content-between align-items-center w-100">
             <div className="copyright" style={{ color: "#E6E4E0" }}>
-              ® 2024 THEJAPANDISTORE
+              ® 2024 THEKICKFLIPSTORE
             </div>
             <div className="terms d-flex">
               <div
